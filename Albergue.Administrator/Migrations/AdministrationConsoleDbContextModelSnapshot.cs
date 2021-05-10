@@ -31,6 +31,7 @@ namespace Albergue.Administrator.Migrations
             modelBuilder.Entity("Albergue.Administrator.Entities.ShopItemEntry", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CategoryEntryId")

@@ -1,4 +1,6 @@
+using Albergue.Administrator.HostedServices;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Albergue.Administrator
@@ -18,6 +20,10 @@ namespace Albergue.Administrator
                     .UseKestrel()
                     .UseStartup<Startup>()
                     .UseUrls("http://[::1]:5020");
+                })
+                .ConfigureServices(services =>
+                {
+                    //services.AddHostedService<TimedHostedService>();
                 });
     }
 }

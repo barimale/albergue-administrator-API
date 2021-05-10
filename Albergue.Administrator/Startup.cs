@@ -1,3 +1,4 @@
+using Albergue.Administrator.HostedServices;
 using Albergue.Administrator.Repository;
 using Albergue.Administrator.Services;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +27,7 @@ namespace Albergue.Administrator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IFileUploader, FileUploader>();
+            services.AddScoped<ILocalesGenerator, LocalesGenerator>();
             services.AddAutoMapper(typeof(Startup));
 
             services.AddCors();
@@ -46,6 +48,8 @@ namespace Albergue.Administrator
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Albergue.Administrator", Version = "v1" });
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
+
+            services.AddHostedService<LocalesHostedService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AdministrationConsoleDbContext dbContext)

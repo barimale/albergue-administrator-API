@@ -1,11 +1,13 @@
 ﻿using Albergue.Administrator.Entities;
 using Albergue.Administrator.Model;
 using Albergue.Administrator.Repository;
+using Albergue.Administrator.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PubSub;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,8 @@ namespace Albergue.Administrator.Controllers
         private readonly IMapper _mapper;
         private readonly AdministrationConsoleDbContext _context;
         private readonly ILogger<ItemController> _logger;
+        private Hub hub = Hub.Default;
+
 
         public ItemController(ILogger<ItemController> logger, AdministrationConsoleDbContext context, IMapper mapper)
         {
@@ -43,6 +47,8 @@ namespace Albergue.Administrator.Controllers
                 var result = await _context.ShopItems.AddAsync(mapped, cancellationToken);
 
                 await _context.SaveChangesAsync(cancellationToken);
+
+                hub.Publish(result.Entity);
 
                 return Ok(result.Entity);
                 
