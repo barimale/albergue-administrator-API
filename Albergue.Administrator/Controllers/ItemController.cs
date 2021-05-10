@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Albergue.Administrator.Controllers
@@ -32,16 +33,19 @@ namespace Albergue.Administrator.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItemEntry))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddItemAsync(ShopItem item)
+        public async Task<ActionResult> AddItemAsync(ShopItem item, CancellationToken cancellationToken)
         {
             try
             {
-                var mapped = _mapper.Map<ShopItemEntry>(item);
-                var result = await _context.ShopItems.AddAsync(mapped);
+                cancellationToken.ThrowIfCancellationRequested();
 
-                await _context.SaveChangesAsync();
+                var mapped = _mapper.Map<ShopItemEntry>(item);
+                var result = await _context.ShopItems.AddAsync(mapped, cancellationToken);
+
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return Ok(result.Entity);
+                
             }
             catch (Exception ex)
             {
@@ -54,10 +58,11 @@ namespace Albergue.Administrator.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItemEntry))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> UpdateItemAsync(ShopItem item)
+        public async Task<ActionResult> UpdateItemAsync(ShopItem item, CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var mapped = _mapper.Map<ShopItemEntry>(item);
 
 
@@ -80,10 +85,11 @@ namespace Albergue.Administrator.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeleteItemAsync(ShopItem item)
+        public async Task<ActionResult> DeleteItemAsync(ShopItem item, CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var mapped = _mapper.Map<ShopItemEntry>(item);
 
 
@@ -110,10 +116,12 @@ namespace Albergue.Administrator.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItemEntry))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> GetItemByIdAsync(string id)
+        public async Task<ActionResult> GetItemByIdAsync(string id, CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var found = await _context.ShopItems.AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
 
                 if(found == null)
@@ -136,10 +144,11 @@ namespace Albergue.Administrator.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItemEntry[]))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> GetAllItemsAsync()
+        public async Task<ActionResult> GetAllItemsAsync(CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var allOfThem = await _context.ShopItems.ToArrayAsync();
 
                 return Ok(allOfThem);
