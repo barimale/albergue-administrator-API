@@ -1,14 +1,12 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Albergue.Administrator.Entities
 {
-    public class CategoryEntry
+    public class LanguageEntry
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
-        public string Name { get; set; }
-        public List<ShopItemEntry> ShopItems { get; } = new List<ShopItemEntry>();
+        public string Alpha2Code { get; set; }
     }
 }

@@ -14,13 +14,21 @@ namespace Albergue.Administrator.Repository
 
         public DbSet<ShopItemEntry> ShopItems { get; set; }
         public DbSet<CategoryEntry> Categories { get; set; }
+        public DbSet<LanguageEntry> Languages { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new CategoryEntryConfiguration());
-            //modelBuilder.ApplyConfiguration(new ShopItemEntryConfiguration());
-
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            modelBuilder
+                .Entity<LanguageEntry>()
+                .HasData(
+                    new LanguageEntry { Alpha2Code= "EN" },
+                    new LanguageEntry { Alpha2Code= "NL" },
+                    new LanguageEntry { Alpha2Code = "PT" },
+                    new LanguageEntry { Alpha2Code = "DE" }
+                );
         }
     }
 }

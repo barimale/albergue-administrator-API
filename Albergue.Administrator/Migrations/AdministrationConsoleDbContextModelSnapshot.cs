@@ -18,6 +18,7 @@ namespace Albergue.Administrator.Migrations
             modelBuilder.Entity("Albergue.Administrator.Entities.CategoryEntry", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -26,6 +27,20 @@ namespace Albergue.Administrator.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Albergue.Administrator.Entities.LanguageEntry", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Alpha2Code")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("Albergue.Administrator.Entities.ShopItemEntry", b =>
