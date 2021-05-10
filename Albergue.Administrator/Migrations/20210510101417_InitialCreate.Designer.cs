@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Albergue.Administrator.Migrations
 {
     [DbContext(typeof(AdministrationConsoleDbContext))]
-    [Migration("20210509231715_InitialCreate")]
+    [Migration("20210510101417_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Linq;
 
 namespace Albergue.Administrator
 {
@@ -27,26 +28,30 @@ namespace Albergue.Administrator
             services.AddScoped<IFileUploader, FileUploader>();
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Albergue.Administrator", Version = "v1" });
-            });
-
             services.AddCors();
 
-            //TODO: add connection string for DB in config file
             services.AddDbContext<AdministrationConsoleDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("AdministrationConsoleDbContext"),
+                options
+                    .UseSqlite(Configuration.GetConnectionString("AdministrationConsoleDbContext"),
                 b => b.MigrationsAssembly(typeof(AdministrationConsoleDbContext).Assembly.FullName)));
 
             //});
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<AdministrationConsoleDbContext>();
+
+            services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Albergue.Administrator", Version = "v1" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AdministrationConsoleDbContext dbContext)
         {
+            dbContext.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -56,11 +61,6 @@ namespace Albergue.Administrator
 
             app.UseRouting();
             //app.UseHsts();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
 
             app.UseCors(p =>
                 p.AllowAnyOrigin()
@@ -73,6 +73,10 @@ namespace Albergue.Administrator
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
