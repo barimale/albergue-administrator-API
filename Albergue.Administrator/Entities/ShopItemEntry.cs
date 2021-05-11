@@ -1,7 +1,4 @@
-﻿
-using Albergue.Administrator.Model;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Albergue.Administrator.Entities
 {
@@ -14,8 +11,7 @@ namespace Albergue.Administrator.Entities
         public string Description { get; set; }
         //WIP
         //public List<string> ImageUrls { get; set; }
-
         public string CategoryId { get; set; }
-        public Category Category { get; set; }
+        public CategoryEntry Category { get; set; }
     }
 }

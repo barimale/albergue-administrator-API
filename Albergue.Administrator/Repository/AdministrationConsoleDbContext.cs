@@ -1,5 +1,6 @@
 ﻿using Albergue.Administrator.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Reflection;
 
 namespace Albergue.Administrator.Repository
@@ -28,6 +29,12 @@ namespace Albergue.Administrator.Repository
                     new LanguageEntry { Alpha2Code= "NL" },
                     new LanguageEntry { Alpha2Code = "PT" },
                     new LanguageEntry { Alpha2Code = "DE" }
+                );
+
+            modelBuilder
+                .Entity<CategoryEntry>()
+                .HasData(
+                    new CategoryEntry { Id = Guid.NewGuid().ToString(), Name = "ALL" }
                 );
         }
     }

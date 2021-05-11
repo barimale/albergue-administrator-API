@@ -9,6 +9,8 @@ namespace Albergue.Administrator.Repository
         public void Configure(EntityTypeBuilder<LanguageEntry> builder)
         {
             builder.HasKey(o => o.Id);
+            builder.Property(p => p.Id)
+                .ValueGeneratedOnAdd();
         }
     }
 }

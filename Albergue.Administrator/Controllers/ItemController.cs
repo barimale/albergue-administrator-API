@@ -32,7 +32,7 @@ namespace Albergue.Administrator.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItemEntry))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItem))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddItemAsync(ShopItem item, CancellationToken cancellationToken)
         {
@@ -41,14 +41,16 @@ namespace Albergue.Administrator.Controllers
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var mapped = _mapper.Map<ShopItemEntry>(item);
+                mapped.Id = Guid.NewGuid().ToString();
                 var result = await _context.ShopItems.AddAsync(mapped, cancellationToken);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
                 hub.Publish(result.Entity);
 
-                return Ok(result.Entity);
-                
+                var mappedResult = _mapper.Map<ShopItem>(result.Entity);
+
+                return Ok(mappedResult);
             }
             catch (Exception ex)
             {
@@ -59,7 +61,7 @@ namespace Albergue.Administrator.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItemEntry))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItem))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateItemAsync(ShopItem item, CancellationToken cancellationToken)
         {
@@ -75,7 +77,9 @@ namespace Albergue.Administrator.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return Ok(result);
+                var mappedResult = _mapper.Map<ShopItem>(result.Entity);
+
+                return Ok(mappedResult);
             }
             catch (Exception ex)
             {
@@ -116,7 +120,7 @@ namespace Albergue.Administrator.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItemEntry))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItem))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> GetItemByIdAsync(string id, CancellationToken cancellationToken)
@@ -132,9 +136,9 @@ namespace Albergue.Administrator.Controllers
                     return NotFound();
                 }
 
-                //TODO: map to DTO?
+                var mappedResult = _mapper.Map<ShopItem>(found);
 
-                return Ok(found);
+                return Ok(mappedResult);
             }
             catch (Exception ex)
             {
@@ -145,16 +149,18 @@ namespace Albergue.Administrator.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItemEntry[]))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItem[]))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> GetAllItemsAsync(CancellationToken cancellationToken)
         {
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
+                
                 var allOfThem = await _context.ShopItems.ToArrayAsync();
+                var mapped = allOfThem.Select(p => _mapper.Map<ShopItem>(p));
 
-                return Ok(allOfThem);
+                return Ok(mapped.ToArray());
             }
             catch (Exception ex)
             {

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Albergue.Administrator.Controllers
@@ -28,18 +29,22 @@ namespace Albergue.Administrator.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryEntry))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddCategoryAsync(Category item)
+        public async Task<ActionResult> AddCategoryAsync(Category item, CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var mapped = _mapper.Map<CategoryEntry>(item);
                 var result = await _context.Categories.AddAsync(mapped);
 
                 await _context.SaveChangesAsync();
 
-                return Ok(result.Entity);
+                var mappedResult = _mapper.Map<Category>(result.Entity);
+
+                return Ok(mappedResult);
             }
             catch (Exception ex)
             {
@@ -50,12 +55,14 @@ namespace Albergue.Administrator.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryEntry))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> UpdateCategoryAsync(Category item)
+        public async Task<ActionResult> UpdateCategoryAsync(Category item, CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var mapped = _mapper.Map<CategoryEntry>(item);
 
 
@@ -65,7 +72,9 @@ namespace Albergue.Administrator.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return Ok(result);
+                var mappedResult = _mapper.Map<Category>(result.Entity);
+
+                return Ok(mappedResult);
             }
             catch (Exception ex)
             {
@@ -78,10 +87,12 @@ namespace Albergue.Administrator.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeleteCategoryAsync(Category item)
+        public async Task<ActionResult> DeleteCategoryAsync(Category item, CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var mapped = _mapper.Map<CategoryEntry>(item);
 
 
@@ -105,13 +116,15 @@ namespace Albergue.Administrator.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryEntry))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> GetCategoryByIdAsync(string id)
+        public async Task<ActionResult> GetCategoryByIdAsync(string id, CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var found = await _context.Categories.AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
 
                 if(found == null)
@@ -119,7 +132,9 @@ namespace Albergue.Administrator.Controllers
                     return NotFound();
                 }
 
-                return Ok(found);
+                var mappedResult = _mapper.Map<Category>(found);
+
+                return Ok(mappedResult);
             }
             catch (Exception ex)
             {
@@ -130,15 +145,19 @@ namespace Albergue.Administrator.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryEntry[]))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category[]))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> GetAllCategoriesAsync()
+        public async Task<ActionResult> GetAllCategoriesAsync(CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var allOfThem = await _context.Categories.ToArrayAsync();
 
-                return Ok(allOfThem);
+                var mapped = allOfThem.Select(p => _mapper.Map<Category>(p));
+
+                return Ok(mapped.ToArray());
             }
             catch (Exception ex)
             {

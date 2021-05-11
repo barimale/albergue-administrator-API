@@ -1,7 +1,6 @@
 ﻿using Albergue.Administrator.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace Albergue.Administrator.Repository
 {
@@ -10,6 +9,8 @@ namespace Albergue.Administrator.Repository
         public void Configure(EntityTypeBuilder<ShopItemEntry> builder)
         {
             builder.HasKey(o => o.Id);
+            builder.Property(p => p.Id)
+                .ValueGeneratedOnAdd();
         }
     }
 }

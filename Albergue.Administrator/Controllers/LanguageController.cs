@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Albergue.Administrator.Controllers
@@ -30,18 +32,22 @@ namespace Albergue.Administrator.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LanguageEntry))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Language))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddLanguageAsync(Category item)
+        public async Task<ActionResult> AddLanguageAsync(Language item, CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var mapped = _mapper.Map<LanguageEntry>(item);
                 var result = await _context.Languages.AddAsync(mapped);
 
                 await _context.SaveChangesAsync();
 
-                return Ok(result.Entity);
+                var mappedResult = _mapper.Map<Language>(result.Entity);
+
+                return Ok(mappedResult);
             }
             catch (Exception ex)
             {
@@ -54,10 +60,12 @@ namespace Albergue.Administrator.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeleteLanguageAsync(Language item)
+        public async Task<ActionResult> DeleteLanguageAsync(Language item, CancellationToken cancellationToken)
         {
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var mapped = _mapper.Map<LanguageEntry>(item);
 
 
@@ -80,41 +88,19 @@ namespace Albergue.Administrator.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LanguageEntry))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> GetLanguageByIdAsync(string id)
-        {
-            try
-            {
-                var found = await _context.Languages.AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
-
-                if(found == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(found);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-
-                return StatusCode(400);
-            }
-        }
-
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LanguageEntry[]))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Language[]))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> GetAllLanguagesAsync()
+        public async Task<ActionResult> GetAllLanguagesAsync(CancellationToken cancellationToken)
         {
             try
             {
-                var allOfThem = await _context.Languages.ToArrayAsync();
+                cancellationToken.ThrowIfCancellationRequested();
 
-                return Ok(allOfThem);
+                var allOfThem = await _context.Languages.ToArrayAsync();
+                var mapped = allOfThem.Select(p => _mapper.Map<Language>(p));
+
+                return Ok(mapped.ToArray());
             }
             catch (Exception ex)
             {

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Albergue.Administrator.Migrations
 {
     [DbContext(typeof(AdministrationConsoleDbContext))]
-    [Migration("20210510204143_InitialCreate")]
+    [Migration("20210511001219_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,13 @@ namespace Albergue.Administrator.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "4a28e665-a319-438c-952f-0a509e63ad85",
+                            Name = "ALL"
+                        });
                 });
 
             modelBuilder.Entity("Albergue.Administrator.Entities.LanguageEntry", b =>
@@ -43,6 +50,28 @@ namespace Albergue.Administrator.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Languages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "7cfc3035-360e-4a25-921b-124b239b1a7f",
+                            Alpha2Code = "EN"
+                        },
+                        new
+                        {
+                            Id = "24276f81-dc5a-46c5-99a6-9e0364bbcd46",
+                            Alpha2Code = "NL"
+                        },
+                        new
+                        {
+                            Id = "6792b645-08f6-44e1-b645-da42ad957fac",
+                            Alpha2Code = "PT"
+                        },
+                        new
+                        {
+                            Id = "1a11331b-1158-45dc-9009-cdde6956e357",
+                            Alpha2Code = "DE"
+                        });
                 });
 
             modelBuilder.Entity("Albergue.Administrator.Entities.ShopItemEntry", b =>
@@ -51,9 +80,6 @@ namespace Albergue.Administrator.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CategoryEntryId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("CategoryId")
                         .HasColumnType("TEXT");
 
@@ -67,79 +93,23 @@ namespace Albergue.Administrator.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryEntryId");
 
                     b.HasIndex("CategoryId");
 
                     b.ToTable("ShopItems");
                 });
 
-            modelBuilder.Entity("Albergue.Administrator.Model.Category", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("Albergue.Administrator.Model.ShopItem", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("ShortDescription")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("ShopItem");
-                });
-
             modelBuilder.Entity("Albergue.Administrator.Entities.ShopItemEntry", b =>
                 {
-                    b.HasOne("Albergue.Administrator.Entities.CategoryEntry", null)
+                    b.HasOne("Albergue.Administrator.Entities.CategoryEntry", "Category")
                         .WithMany("ShopItems")
-                        .HasForeignKey("CategoryEntryId");
-
-                    b.HasOne("Albergue.Administrator.Model.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Albergue.Administrator.Model.ShopItem", b =>
-                {
-                    b.HasOne("Albergue.Administrator.Model.Category", "Category")
-                        .WithMany("ShopItems")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Albergue.Administrator.Entities.CategoryEntry", b =>
-                {
-                    b.Navigation("ShopItems");
-                });
-
-            modelBuilder.Entity("Albergue.Administrator.Model.Category", b =>
                 {
                     b.Navigation("ShopItems");
                 });
