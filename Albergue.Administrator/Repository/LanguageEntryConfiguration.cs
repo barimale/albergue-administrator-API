@@ -11,6 +11,13 @@ namespace Albergue.Administrator.Repository
             builder.HasKey(o => o.Id);
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
+
+            builder.HasData(
+                new LanguageEntry { Alpha2Code = "EN" },
+                new LanguageEntry { Alpha2Code = "NL" },
+                new LanguageEntry { Alpha2Code = "PT" },
+                new LanguageEntry { Alpha2Code = "DE" }
+            );
         }
     }
 }

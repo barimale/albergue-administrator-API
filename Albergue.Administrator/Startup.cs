@@ -1,17 +1,19 @@
 using Albergue.Administrator.HostedServices;
 using Albergue.Administrator.Repository;
 using Albergue.Administrator.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Linq;
+using System.Text;
 
 namespace Albergue.Administrator
 {
@@ -28,6 +30,8 @@ namespace Albergue.Administrator
         {
             services.AddScoped<IFileUploader, FileUploader>();
             services.AddScoped<ILocalesGenerator, LocalesGenerator>();
+            services.AddScoped<IAuthorizeService, AuthorizeService>();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddCors();
@@ -37,9 +41,32 @@ namespace Albergue.Administrator
                     .UseSqlite(Configuration.GetConnectionString("AdministrationConsoleDbContext"),
                 b => b.MigrationsAssembly(typeof(AdministrationConsoleDbContext).Assembly.FullName)));
             //SuppressForeignKeyEnforcement
-            //});
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<AdministrationConsoleDbContext>();
+
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<AdministrationConsoleDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
+
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]));
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(config =>
+            {
+                config.RequireHttpsMetadata = false;
+                config.SaveToken = true;
+                config.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    IssuerSigningKey = signingKey,
+                    ValidateAudience = true,
+                    ValidAudience = Configuration["Tokens:Audience"],
+                    ValidateIssuer = true,
+                    ValidIssuer = Configuration["Tokens:Issuer"],
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true
+                };
+            });
 
             services.AddControllers();
 
@@ -65,6 +92,8 @@ namespace Albergue.Administrator
 
             app.UseRouting();
             //app.UseHsts();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseCors(p =>
                 p.AllowAnyOrigin()

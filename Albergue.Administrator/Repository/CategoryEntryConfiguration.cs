@@ -1,6 +1,7 @@
 ﻿using Albergue.Administrator.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Albergue.Administrator.Repository
 {
@@ -14,6 +15,10 @@ namespace Albergue.Administrator.Repository
             builder.HasMany(dm => dm.ShopItems)
                 .WithOne(p => p.Category)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasData(
+                    new CategoryEntry { Id = Guid.NewGuid().ToString(), Name = "ALL" }
+                );
         }
     }
 }
