@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Albergue.Administrator.Migrations
 {
     [DbContext(typeof(AdministrationConsoleDbContext))]
-    [Migration("20210511221920_InitialCreate")]
+    [Migration("20210511233148_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bfd46f11-c6de-45bb-b4ce-6bf8898ea163",
+                            Id = "b03a11b8-93b2-4ea4-a8a7-397290830da1",
                             Name = "ALL"
                         });
                 });
@@ -55,22 +55,22 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a9f4f91c-473f-416c-8169-950e61e72b3e",
+                            Id = "2b2e5580-ddc1-4a7a-a531-73407a1701eb",
                             Alpha2Code = "EN"
                         },
                         new
                         {
-                            Id = "e35b6306-514e-4002-9f80-364f4a3f20be",
+                            Id = "87d64990-3c19-43b7-9b03-a88153982ce7",
                             Alpha2Code = "NL"
                         },
                         new
                         {
-                            Id = "11560355-be3b-41cd-b1cb-b068eb4877ec",
+                            Id = "fa9ba906-507e-4acd-b874-e77063a2f31c",
                             Alpha2Code = "PT"
                         },
                         new
                         {
-                            Id = "82b271f7-29b4-4dfd-8745-31390a24593a",
+                            Id = "ab114dd5-784a-4e0a-8f2e-fd3f0a05ac0f",
                             Alpha2Code = "DE"
                         });
                 });
@@ -217,6 +217,25 @@ namespace Albergue.Administrator.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "bcd7cb22-d168-4470-85ed-0ce5937d98aa",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e8e117b6-d64d-4d03-8218-ae5a22ead0f6",
+                            Email = "mateusz.wolnica@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEj0kvN65IgbA2iQRYSHfZ9ayUaSFZzfAAykeQl6n+Nk3hKshnawrlJuP2ICPfHHsw==",
+                            PhoneNumber = "0048665337563",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "00000000-0000-0000-0000-000000000000",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>

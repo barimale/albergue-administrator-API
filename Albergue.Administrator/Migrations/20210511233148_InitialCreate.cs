@@ -200,29 +200,34 @@ namespace Albergue.Administrator.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "bcd7cb22-d168-4470-85ed-0ce5937d98aa", 0, "e8e117b6-d64d-4d03-8218-ae5a22ead0f6", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEEj0kvN65IgbA2iQRYSHfZ9ayUaSFZzfAAykeQl6n+Nk3hKshnawrlJuP2ICPfHHsw==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
+
+            migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { "bfd46f11-c6de-45bb-b4ce-6bf8898ea163", "ALL" });
+                values: new object[] { "b03a11b8-93b2-4ea4-a8a7-397290830da1", "ALL" });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code" },
-                values: new object[] { "a9f4f91c-473f-416c-8169-950e61e72b3e", "EN" });
+                values: new object[] { "2b2e5580-ddc1-4a7a-a531-73407a1701eb", "EN" });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code" },
-                values: new object[] { "e35b6306-514e-4002-9f80-364f4a3f20be", "NL" });
+                values: new object[] { "87d64990-3c19-43b7-9b03-a88153982ce7", "NL" });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code" },
-                values: new object[] { "11560355-be3b-41cd-b1cb-b068eb4877ec", "PT" });
+                values: new object[] { "fa9ba906-507e-4acd-b874-e77063a2f31c", "PT" });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code" },
-                values: new object[] { "82b271f7-29b4-4dfd-8745-31390a24593a", "DE" });
+                values: new object[] { "ab114dd5-784a-4e0a-8f2e-fd3f0a05ac0f", "DE" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

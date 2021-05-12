@@ -2,6 +2,7 @@
 using Albergue.Administrator.Repository;
 using Albergue.Administrator.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -41,11 +42,11 @@ namespace Albergue.Administrator.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> LogoutAsync(CancellationToken cancellationToken)
+        public async Task<ActionResult> LogoutAsync(CancellationToken? cancellationToken = null)
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                cancellationToken?.ThrowIfCancellationRequested();
 
                 await _signInManager.SignOutAsync();
 

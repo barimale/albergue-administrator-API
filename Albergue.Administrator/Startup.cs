@@ -1,9 +1,11 @@
+using Albergue.Administrator.Filters;
 using Albergue.Administrator.HostedServices;
 using Albergue.Administrator.Repository;
 using Albergue.Administrator.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -47,33 +51,61 @@ namespace Albergue.Administrator
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]));
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Tokens:Key"]));
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(config =>
             {
                 config.RequireHttpsMetadata = false;
                 config.SaveToken = true;
                 config.TokenValidationParameters = new TokenValidationParameters()
                 {
+                    //TODO: false to true invetigate twhat needs to be corrected
                     IssuerSigningKey = signingKey,
-                    ValidateAudience = true,
+                    ValidateAudience = false,
                     ValidAudience = Configuration["Tokens:Audience"],
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidIssuer = Configuration["Tokens:Issuer"],
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = false
                 };
+                //config.Events = new JwtBearerEvents()
+                //{
+                //    OnAuthenticationFailed = c =>
+                //    {
+                //        c.NoResult();
+                //        c.Response.StatusCode = 401;
+                //        c.Response.ContentType = "text/plain";
+                //        Console.WriteLine(c.Exception.ToString());
+                //        return c.Response.WriteAsync(c.Exception.ToString());
+                //    }
+                //};
             });
 
             services.AddControllers();
+                //p => p.Filters.Add(typeof(NotAuthorizedExceptionFilterAttribute)));
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Albergue.Administrator", Version = "v1" });
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the bearer scheme",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {new OpenApiSecurityScheme{Reference = new OpenApiReference
+                    {
+                        Id = "Bearer",
+                        Type = ReferenceType.SecurityScheme
+                    }}, new List<string>()}
+                });
             });
 
             services.AddHostedService<LocalesHostedService>();
@@ -92,14 +124,16 @@ namespace Albergue.Administrator
 
             app.UseRouting();
             //app.UseHsts();
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseCors(p =>
-                p.AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-            );
+            {
+                p.AllowAnyOrigin();
+                p.AllowAnyHeader();
+                p.AllowAnyMethod();
+            });
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
