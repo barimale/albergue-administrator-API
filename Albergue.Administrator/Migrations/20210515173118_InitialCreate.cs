@@ -253,7 +253,7 @@ namespace Albergue.Administrator.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "53b4e5ec-ab7e-4c17-b526-dccd2f0a0c79", 0, "a644dc39-5ad9-4781-a4ff-c50d6fa3ede1", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEHiMR/sEOT/EPjOd+x/PEvUiI8krrQxrkOhSbz8E4/P/TXZR0y7VsivnN5iWuhnDMw==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
+                values: new object[] { "a0084c4b-83b5-4bde-aed7-47f86cc4c49a", 0, "0e938785-0a76-49b6-847c-98381d62793b", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEDuhq3UEDBjhwk21k4TsMyioe7lggE7I/bwNdMdSlMd8TXHxt9QwjpU8TuPtbgzX2A==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

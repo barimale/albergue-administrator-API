@@ -231,15 +231,15 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "53b4e5ec-ab7e-4c17-b526-dccd2f0a0c79",
+                            Id = "a0084c4b-83b5-4bde-aed7-47f86cc4c49a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a644dc39-5ad9-4781-a4ff-c50d6fa3ede1",
+                            ConcurrencyStamp = "0e938785-0a76-49b6-847c-98381d62793b",
                             Email = "mateusz.wolnica@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHiMR/sEOT/EPjOd+x/PEvUiI8krrQxrkOhSbz8E4/P/TXZR0y7VsivnN5iWuhnDMw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDuhq3UEDBjhwk21k4TsMyioe7lggE7I/bwNdMdSlMd8TXHxt9QwjpU8TuPtbgzX2A==",
                             PhoneNumber = "0048665337563",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
