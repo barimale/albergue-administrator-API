@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace Albergue.Administrator.Repository
+namespace Albergue.Administrator.Repository.Database.Configuration
 {
     public class LanguageBaseEntryConfiguration : IEntityTypeConfiguration<LanguageBaseEntry>
     {

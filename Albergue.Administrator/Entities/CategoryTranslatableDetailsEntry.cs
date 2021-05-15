@@ -8,6 +8,7 @@ namespace Albergue.Administrator.Entities
         public string Id { get; set; }
         public string Name { get; set; }
 
+        public string LanguageId { get; set; }
         public LanguageMapEntry Language { get; set; }
 
         public string CategoryId { get; set; }

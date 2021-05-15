@@ -39,6 +39,9 @@ namespace Albergue.Administrator.Migrations
                     b.Property<string>("CategoryId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("LanguageId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
@@ -75,22 +78,22 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "88b14288-1aa4-45f7-91c8-41e7dd49d388",
+                            Id = "df769145-3276-45ec-89a0-5f077cc3d34c",
                             Alpha2Code = "EN"
                         },
                         new
                         {
-                            Id = "fd50f6ff-4901-412d-8b2d-73190d7207f1",
+                            Id = "4b466f00-8551-484e-923d-2db82fafbd74",
                             Alpha2Code = "NL"
                         },
                         new
                         {
-                            Id = "d5bba36f-c938-499a-a89f-b77cf91cf38e",
+                            Id = "4e31e3fd-5f99-4baa-aa90-c6dc90ca6623",
                             Alpha2Code = "PT"
                         },
                         new
                         {
-                            Id = "c94528ec-5e3c-4147-9847-d963a2eb7026",
+                            Id = "5c7acf3f-adc6-4711-8c4f-793ffb707f90",
                             Alpha2Code = "DE"
                         });
                 });
@@ -155,6 +158,9 @@ namespace Albergue.Administrator.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LanguageId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -288,15 +294,15 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6a16f80a-ec20-4cce-b7dc-02247d563764",
+                            Id = "0c600335-c8d6-4ef9-9bb9-cde91076561c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c6edca81-66ac-4ead-bf23-a993113be6ee",
+                            ConcurrencyStamp = "04d1e80b-dd44-47e0-b9e7-8a8f1cfd47f0",
                             Email = "mateusz.wolnica@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKRSJC2uSkng24cd2901CPFSc5atKzsWCOjOF1k34HZIZ8U916Ebcz6RBOvRcGGlyw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF1NxgK5m3tZdBxvECZpR0xwbUW/z0BaizubYcm94AUXgAXKpdT97tz5KzwS9A6IWQ==",
                             PhoneNumber = "0048665337563",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",

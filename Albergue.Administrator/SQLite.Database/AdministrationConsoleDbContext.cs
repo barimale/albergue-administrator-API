@@ -1,4 +1,5 @@
 ﻿using Albergue.Administrator.Entities;
+using Albergue.Administrator.Repository.Database.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

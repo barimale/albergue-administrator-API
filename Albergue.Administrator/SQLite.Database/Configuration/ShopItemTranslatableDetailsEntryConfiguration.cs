@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Albergue.Administrator.Repository
+namespace Albergue.Administrator.Repository.Database.Configuration
 {
     public class ShopItemTranslatableDetailsEntryConfiguration : IEntityTypeConfiguration<ShopItemTranslatableDetailsEntry>
     {

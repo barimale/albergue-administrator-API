@@ -1,6 +1,7 @@
 using Albergue.Administrator.HostedServices;
 using Albergue.Administrator.Repository;
 using Albergue.Administrator.Services;
+using Albergue.Administrator.SQLite.Database.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,7 @@ namespace Albergue.Administrator
             services.AddScoped<IFileUploader, FileUploader>();
             services.AddScoped<ILocalesGenerator, LocalesGenerator>();
             services.AddScoped<IAuthorizeService, AuthorizeService>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -41,12 +43,6 @@ namespace Albergue.Administrator
                 options
                     .UseSqlite(Configuration.GetConnectionString("AdministrationConsoleDbContext"),
                 b => b.MigrationsAssembly(typeof(AdministrationConsoleDbContext).Assembly.FullName)));
-
-            //services.AddDbContext<AdministrationConsoleDbContext>(options =>
-            //    options
-            //        .UseSqlServer(Configuration.GetConnectionString("MSSQLAdministrationConsoleDbContext"),
-            //    b => b.MigrationsAssembly(typeof(AdministrationConsoleDbContext).Assembly.FullName)));
-            ////SuppressForeignKeyEnforcement
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AdministrationConsoleDbContext>()
@@ -73,21 +69,9 @@ namespace Albergue.Administrator
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = false
                 };
-                //config.Events = new JwtBearerEvents()
-                //{
-                //    OnAuthenticationFailed = c =>
-                //    {
-                //        c.NoResult();
-                //        c.Response.StatusCode = 401;
-                //        c.Response.ContentType = "text/plain";
-                //        Console.WriteLine(c.Exception.ToString());
-                //        return c.Response.WriteAsync(c.Exception.ToString());
-                //    }
-                //};
             });
 
             services.AddControllers();
-                //p => p.Filters.Add(typeof(NotAuthorizedExceptionFilterAttribute)));
 
             services.AddSwaggerGen(c =>
             {

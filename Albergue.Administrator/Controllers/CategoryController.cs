@@ -1,14 +1,11 @@
-﻿using Albergue.Administrator.Entities;
-using Albergue.Administrator.Model;
-using Albergue.Administrator.Repository;
+﻿using Albergue.Administrator.Model;
+using Albergue.Administrator.SQLite.Database.Repositories;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,13 +17,16 @@ namespace Albergue.Administrator.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly AdministrationConsoleDbContext _context;
+        private readonly ICategoryRepository _repository;
         private readonly ILogger<CategoryController> _logger;
 
-        public CategoryController(ILogger<CategoryController> logger, AdministrationConsoleDbContext context, IMapper mapper)
+        public CategoryController(
+            ILogger<CategoryController> logger,
+            ICategoryRepository repository,
+            IMapper mapper)
         {
             _logger = logger;
-            _context = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -37,16 +37,9 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var added = await _repository.AddAsync(item, cancellationToken);
 
-                var mapped = _mapper.Map<CategoryEntry>(item);
-                var result = await _context.Categories.AddAsync(mapped);
-
-                await _context.SaveChangesAsync();
-
-                var mappedResult = _mapper.Map<Category>(result.Entity);
-
-                return Ok(mappedResult);
+                return Ok(added);
             }
             catch (Exception ex)
             {
@@ -63,20 +56,9 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var updated = await _repository.UpdateAsync(item, cancellationToken);
 
-                var mapped = _mapper.Map<CategoryEntry>(item);
-
-
-                var existed = _context.Categories.AsQueryable().FirstOrDefault(p => p.Id == item.Id);
-                var updated = _mapper.Map(existed, mapped);
-                var result = await _context.Categories.AddAsync(updated);
-
-                await _context.SaveChangesAsync();
-
-                var mappedResult = _mapper.Map<Category>(result.Entity);
-
-                return Ok(mappedResult);
+                return Ok(updated);
             }
             catch (Exception ex)
             {
@@ -93,16 +75,9 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var result = await _repository.DeleteAsync(item, cancellationToken);
 
-                var mapped = _mapper.Map<CategoryEntry>(item);
-
-
-                var deleted = _context.Categories.Remove(mapped);
-
-                var result = await _context.SaveChangesAsync();
-
-                if(result < 0)
+                if (result < 0)
                 {
                     return Ok();
                 }
@@ -125,22 +100,14 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var found = await _repository.GetByIdAsync(id, cancellationToken);
 
-                var found = await _context
-                    .Categories
-                    .Include(p => p.TranslatableDetails)
-                    .ThenInclude(pp => pp.Language)
-                    .AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
-
-                if(found == null)
+                if (found == null)
                 {
                     return NotFound();
                 }
 
-                var mappedResult = _mapper.Map<Category>(found);
-
-                return Ok(mappedResult);
+                return Ok(found);
             }
             catch (Exception ex)
             {
@@ -157,13 +124,9 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var allOfThem = await _repository.GetAllAsync(cancellationToken);
 
-                var allOfThem = await _context.Categories.ToArrayAsync();
-
-                var mapped = allOfThem.Select(p => _mapper.Map<Category>(p));
-
-                return Ok(mapped.ToArray());
+                return Ok(allOfThem);
             }
             catch (Exception ex)
             {
