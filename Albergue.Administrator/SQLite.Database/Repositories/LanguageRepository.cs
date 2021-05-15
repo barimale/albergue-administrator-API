@@ -27,11 +27,11 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             _mapper = mapper;
         }
 
-        public async Task<Language> AddAsync(Language item, CancellationToken cancellationToken)
+        public async Task<Language> AddAsync(Language item, CancellationToken? cancellationToken = null)
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                cancellationToken?.ThrowIfCancellationRequested();
 
                 var mapped = _mapper.Map<LanguageBaseEntry>(item);
                 var result = await _context.Languages.AddAsync(mapped);
@@ -49,17 +49,17 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             }
         }
 
-        public async Task<int> DeleteAsync(Language item, CancellationToken cancellationToken)
+        public async Task<int> DeleteAsync(Language item, CancellationToken? cancellationToken = null)
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                cancellationToken?.ThrowIfCancellationRequested();
 
                 var mapped = _mapper.Map<LanguageBaseEntry>(item);
 
                 var deleted = _context.Languages.Remove(mapped);
 
-                return await _context.SaveChangesAsync(cancellationToken);
+                return await _context.SaveChangesAsync(cancellationToken?? default);
             }
             catch (Exception ex)
             {
@@ -68,11 +68,11 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             }
         }
 
-        public async Task<Language[]> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<Language[]> GetAllAsync(CancellationToken? cancellationToken)
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                cancellationToken?.ThrowIfCancellationRequested();
 
                 var allOfThem = await _context.Languages.ToArrayAsync();
                 var mapped = allOfThem.Select(p => _mapper.Map<Language>(p));

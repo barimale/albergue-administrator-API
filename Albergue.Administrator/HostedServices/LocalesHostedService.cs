@@ -12,7 +12,8 @@ namespace Albergue.Administrator.HostedServices
 {
     public class LocalesHostedService : IHostedService
     {
-        private readonly ILocalesGenerator _generator;
+        private readonly ILocalesGenerator _localesGenerator;
+        private readonly IImageExtractor _extractor;
         private readonly ILogger<LocalesHostedService> _logger;
         private readonly Hub _hub;
 
@@ -27,7 +28,8 @@ namespace Albergue.Administrator.HostedServices
             : this()
         {
             _logger = logger;
-            _generator = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ILocalesGenerator>();
+            _extractor = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IImageExtractor>();
+            _localesGenerator = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ILocalesGenerator>();
         }
 
         public Task StartAsync(CancellationToken stoppingToken)
@@ -52,14 +54,23 @@ namespace Albergue.Administrator.HostedServices
             return Task.CompletedTask;
         }
 
-        private async Task DoWorkAsync(object state = null)
+        private async Task DoWorkAsync()
         {
             try
             {
                 _logger.LogInformation(
                     "Locales creation in progress. ");
 
-                await _generator.GenerateAsync();
+                await Task.WhenAll(
+                    Task.Run(async () =>
+                    {
+                        await _localesGenerator.GenerateAsync();
+                    }),
+                    Task.Run(async () =>
+                    {
+                        await _extractor.SaveLocallyAsync();
+                    })
+                );
             }
             catch (Exception ex)
             {

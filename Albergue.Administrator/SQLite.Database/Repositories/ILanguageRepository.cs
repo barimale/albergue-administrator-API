@@ -6,8 +6,8 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
 {
     public interface ILanguageRepository
     {
-        Task<Language> AddAsync(Language item, CancellationToken cancellationToken);
-        Task<int> DeleteAsync(Language item, CancellationToken cancellationToken);
-        Task<Language[]> GetAllAsync(CancellationToken cancellationToken);
+        Task<Language> AddAsync(Language item, CancellationToken? cancellationToken = null);
+        Task<int> DeleteAsync(Language item, CancellationToken? cancellationToken = null);
+        Task<Language[]> GetAllAsync(CancellationToken? cancellationToken = null);
     }
 }

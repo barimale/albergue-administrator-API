@@ -15,7 +15,6 @@ namespace Albergue.Administrator.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly AdministrationConsoleDbContext _context;
         private readonly ILogger<UserController> _logger;
         private readonly IAuthorizeService _authorizeService;
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -23,13 +22,11 @@ namespace Albergue.Administrator.Controllers
 
         public UserController(
             ILogger<UserController> logger, 
-            AdministrationConsoleDbContext context, 
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IAuthorizeService authorizeService)
         {
             _logger = logger;
-            _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
             _authorizeService = authorizeService;

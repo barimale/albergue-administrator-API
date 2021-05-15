@@ -133,7 +133,11 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var allOfThem = await _context.Categories.ToArrayAsync(cancellationToken);
+                var allOfThem = await _context
+                    .Categories
+                    .Include(p => p.TranslatableDetails)
+                    .ThenInclude(pp => pp.Language)
+                    .ToArrayAsync(cancellationToken);
 
                 var mapped = allOfThem.Select(p => _mapper.Map<Category>(p));
 

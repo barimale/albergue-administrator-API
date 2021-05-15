@@ -30,7 +30,7 @@ namespace Albergue.Administrator
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IFileUploader, FileUploader>();
+            services.AddScoped<IImageExtractor, ImageExtractor>();
             services.AddScoped<ILocalesGenerator, LocalesGenerator>();
             services.AddScoped<IAuthorizeService, AuthorizeService>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
