@@ -127,7 +127,11 @@ namespace Albergue.Administrator.Controllers
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var found = await _context.Categories.AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
+                var found = await _context
+                    .Categories
+                    .Include(p => p.TranslatableDetails)
+                    .ThenInclude(pp => pp.Language)
+                    .AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
 
                 if(found == null)
                 {

@@ -159,7 +159,12 @@ namespace Albergue.Administrator.Controllers
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 
-                var allOfThem = await _context.ShopItems.ToArrayAsync();
+                var allOfThem = await _context
+                    .ShopItems
+                    .Include(p => p.TranslatableDetails)
+                    .ThenInclude(pp => pp.Language)
+                    .ToArrayAsync();
+
                 var mapped = allOfThem.Select(p => _mapper.Map<ShopItem>(p));
 
                 return Ok(mapped.ToArray());
