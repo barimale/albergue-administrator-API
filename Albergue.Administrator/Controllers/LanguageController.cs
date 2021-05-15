@@ -42,7 +42,7 @@ namespace Albergue.Administrator.Controllers
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var mapped = _mapper.Map<LanguageEntry>(item);
+                var mapped = _mapper.Map<LanguageShopItemEntry>(item);
                 var result = await _context.Languages.AddAsync(mapped);
 
                 await _context.SaveChangesAsync();
@@ -68,7 +68,7 @@ namespace Albergue.Administrator.Controllers
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var mapped = _mapper.Map<LanguageEntry>(item);
+                var mapped = _mapper.Map<LanguageShopItemEntry>(item);
 
 
                 var deleted = _context.Languages.Remove(mapped);

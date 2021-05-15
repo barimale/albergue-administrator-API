@@ -41,6 +41,7 @@ namespace Albergue.Administrator
                 options
                     .UseSqlite(Configuration.GetConnectionString("AdministrationConsoleDbContext"),
                 b => b.MigrationsAssembly(typeof(AdministrationConsoleDbContext).Assembly.FullName)));
+
             //SuppressForeignKeyEnforcement
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

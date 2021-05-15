@@ -1,12 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Albergue.Administrator.Entities
 {
-    public class LanguageEntry
+    public abstract class LanguageBaseEntry
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; private set; } = Guid.NewGuid().ToString();
+        [Key]
+        public string Id { get; set; }
         public string Alpha2Code { get; set; }
     }
 }

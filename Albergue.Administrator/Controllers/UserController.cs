@@ -2,14 +2,11 @@
 using Albergue.Administrator.Repository;
 using Albergue.Administrator.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Albergue.Administrator.Controllers
@@ -40,18 +37,13 @@ namespace Albergue.Administrator.Controllers
 
         [Authorize]
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> LogoutAsync(CancellationToken? cancellationToken = null)
+        public async Task<ActionResult> LogoutAsync()
         {
             try
             {
-                cancellationToken?.ThrowIfCancellationRequested();
-
                 await _signInManager.SignOutAsync();
-
-                //?
-                //await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
                 return Ok();
             }
@@ -65,14 +57,12 @@ namespace Albergue.Administrator.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> LoginAsync(LoginDetails input, CancellationToken cancellationToken)
+        public async Task<ActionResult> LoginAsync(LoginDetails input)
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
-
                 var result = await _signInManager.PasswordSignInAsync(input.Username, input.Password, isPersistent: false, lockoutOnFailure: false);
 
                 if (!result.Succeeded)
@@ -81,32 +71,6 @@ namespace Albergue.Administrator.Controllers
                 }
 
                 var user = await _userManager.FindByNameAsync(input.Username);
-
-                var token = _authorizeService.GetToken(user);
-
-                return Ok(token);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-
-                return StatusCode(400);
-            }
-        }
-
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> RefreshTokenAsync(CancellationToken cancellationToken)
-        {
-            try
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                var user = await _userManager.FindByNameAsync(
-                  User.Identity.Name ??
-                  User.Claims.Where(c => c.Properties.ContainsKey("unique_name")).Select(c => c.Value).FirstOrDefault()
-                  );
 
                 var token = _authorizeService.GetToken(user);
 

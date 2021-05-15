@@ -1,8 +1,8 @@
 ﻿namespace Albergue.Administrator.Model
 {
-    public class Language
+    public abstract class TranslatableDetails
     {
         public string Id { get; set; }
-        public string Alpha2Code { get; set; }
+        public string LanguageId { get; set; }
     }
 }

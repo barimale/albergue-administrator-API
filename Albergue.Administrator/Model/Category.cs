@@ -4,8 +4,12 @@ namespace Albergue.Administrator.Model
 {
     public class Category
     {
+        public Category()
+        {
+            TranslatableDetails = new List<CategoryTranslatableDetails>();
+        }
+
         public string Id { get; set; }
-        public string Name { get; set; }
-        public List<ShopItem> ShopItems { get; } = new List<ShopItem>();
+        public List<CategoryTranslatableDetails> TranslatableDetails { get; set; }
     }
 }

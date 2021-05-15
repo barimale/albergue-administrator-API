@@ -11,6 +11,18 @@ namespace Albergue.Administrator.Repository
             builder.HasKey(o => o.Id);
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
+
+            builder
+                .HasOne(p => p.Category)
+                .WithMany(pp => pp.ShopItems)
+                .HasForeignKey(ppp => ppp.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(p => p.Active).HasConversion<bool>();
+
+            //builder.HasMany(dm => dm.TranslatableDetails)
+            //   .WithOne(p => p.ShopItem)
+            //   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
