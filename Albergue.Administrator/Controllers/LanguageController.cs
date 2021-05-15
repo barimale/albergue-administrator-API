@@ -1,14 +1,11 @@
-﻿using Albergue.Administrator.Entities;
-using Albergue.Administrator.Model;
-using Albergue.Administrator.Repository;
-using AutoMapper;
+﻿using Albergue.Administrator.Model;
+using Albergue.Administrator.SQLite.Database.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PubSub;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,18 +16,22 @@ namespace Albergue.Administrator.Controllers
     [ApiController]
     public class LanguageController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly AdministrationConsoleDbContext _context;
+        private readonly ILanguageRepository _repository;
         private readonly ILogger<LanguageController> _logger;
+        private readonly Hub _hub;
+
+        private LanguageController()
+        {
+            _hub = Hub.Default;
+        }
 
         public LanguageController(
             ILogger<LanguageController> logger,
-            AdministrationConsoleDbContext context,
-            IMapper mapper)
+            ILanguageRepository repository)
+            : this()
         {
             _logger = logger;
-            _context = context;
-            _mapper = mapper;
+            _repository = repository;
         }
 
         [HttpPost]
@@ -40,16 +41,10 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var added = await _repository.AddAsync(item, cancellationToken);
+                _hub.Publish(added);
 
-                var mapped = _mapper.Map<LanguageBaseEntry>(item);
-                var result = await _context.Languages.AddAsync(mapped);
-
-                await _context.SaveChangesAsync();
-
-                var mappedResult = _mapper.Map<Language>(result.Entity);
-
-                return Ok(mappedResult);
+                return Ok(added);
             }
             catch (Exception ex)
             {
@@ -66,28 +61,20 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var deleted = await _repository.DeleteAsync(item, cancellationToken);
 
-                var mapped = _mapper.Map<LanguageBaseEntry>(item);
-
-
-                var deleted = _context.Languages.Remove(mapped);
-
-                var result = await _context.SaveChangesAsync();
-
-                if(result < 0)
+                if (deleted < 0)
                 {
+                    _hub.Publish(item);
                     return Ok();
                 }
-
-                return StatusCode(400);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-
-                return StatusCode(400);
             }
+
+            return StatusCode(400);
         }
 
         [HttpGet]
@@ -97,12 +84,9 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var allOfThem = await _repository.GetAllAsync(cancellationToken);
 
-                var allOfThem = await _context.Languages.ToArrayAsync();
-                var mapped = allOfThem.Select(p => _mapper.Map<Language>(p));
-
-                return Ok(mapped.ToArray());
+                return Ok(allOfThem);
             }
             catch (Exception ex)
             {

@@ -34,9 +34,10 @@ namespace Albergue.Administrator
             services.AddScoped<ILocalesGenerator, LocalesGenerator>();
             services.AddScoped<IAuthorizeService, AuthorizeService>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IItemRepository, ItemRepository>();
+            services.AddTransient<ILanguageRepository, LanguageRepository>();
 
             services.AddAutoMapper(typeof(Startup));
-
             services.AddCors();
 
             services.AddDbContext<AdministrationConsoleDbContext>(options =>

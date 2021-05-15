@@ -11,36 +11,32 @@ using System.Threading.Tasks;
 
 namespace Albergue.Administrator.SQLite.Database.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class ItemRepository : IItemRepository
     {
         private readonly IMapper _mapper;
         private readonly AdministrationConsoleDbContext _context;
-        private readonly ILogger<CategoryRepository> _logger;
+        private readonly ILogger<ItemRepository> _logger;
 
-        public CategoryRepository(
-            ILogger<CategoryRepository> logger,
-            AdministrationConsoleDbContext context,
-            IMapper mapper)
+        public ItemRepository(ILogger<ItemRepository> logger, AdministrationConsoleDbContext context, IMapper mapper)
         {
             _logger = logger;
             _context = context;
             _mapper = mapper;
         }
 
-        public async Task<Category> AddAsync(Category item, CancellationToken cancellationToken)
+        public async Task<ShopItem> AddAsync(ShopItem item, CancellationToken cancellationToken)
         {
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var mapped = _mapper.Map<CategoryEntry>(item);
-                var result = await _context.Categories.AddAsync(mapped, cancellationToken);
+                var mapped = _mapper.Map<ShopItemEntry>(item);
+                mapped.Id = Guid.NewGuid().ToString();
+                var result = await _context.ShopItems.AddAsync(mapped, cancellationToken);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mappedResult = _mapper.Map<Category>(result.Entity);
-
-                return mappedResult;
+                return _mapper.Map<ShopItem>(result.Entity);
             }
             catch (Exception ex)
             {
@@ -49,24 +45,24 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             }
         }
 
-        public async Task<Category> UpdateAsync(Category item, CancellationToken cancellationToken)
+        public async Task<ShopItem> UpdateAsync(ShopItem item, CancellationToken cancellationToken)
         {
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
+                var mapped = _mapper.Map<ShopItemEntry>(item);
 
-                var mapped = _mapper.Map<CategoryEntry>(item);
+                var existed = await _context
+                    .ShopItems
+                    .AsQueryable()
+                    .FirstOrDefaultAsync(p => p.Id == item.Id, cancellationToken);
 
-
-                var existed = _context.Categories.AsQueryable().FirstOrDefault(p => p.Id == item.Id);
                 var updated = _mapper.Map(existed, mapped);
-                var result = await _context.Categories.AddAsync(updated, cancellationToken);
+                var result = await _context.ShopItems.AddAsync(updated);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mappedResult = _mapper.Map<Category>(result.Entity);
-
-                return mappedResult;
+                return _mapper.Map<ShopItem>(result.Entity);
             }
             catch (Exception ex)
             {
@@ -75,20 +71,17 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             }
         }
 
-        public async Task<int> DeleteAsync(Category item, CancellationToken cancellationToken)
+        public async Task<int> DeleteAsync(ShopItem item, CancellationToken cancellationToken)
         {
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
+                var mapped = _mapper.Map<ShopItemEntry>(item);
 
-                var mapped = _mapper.Map<CategoryEntry>(item);
 
+                var deleted = _context.ShopItems.Remove(mapped);
 
-                var deleted = _context.Categories.Remove(mapped);
-
-                var result = await _context.SaveChangesAsync(cancellationToken);
-
-                return result;
+                return await _context.SaveChangesAsync(cancellationToken);
             }
             catch (Exception ex)
             {
@@ -97,16 +90,14 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             }
         }
 
-        public async Task<Category> GetByIdAsync(string id, CancellationToken cancellationToken)
+        public async Task<ShopItem> GetByIdAsync(string id, CancellationToken cancellationToken)
         {
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var found = await _context
-                    .Categories
-                    .Include(p => p.TranslatableDetails)
-                    .ThenInclude(pp => pp.Language)
+                    .ShopItems
                     .AsQueryable()
                     .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
@@ -115,9 +106,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
                     return null;
                 }
 
-                var mappedResult = _mapper.Map<Category>(found);
-
-                return mappedResult;
+                return _mapper.Map<ShopItem>(found);
             }
             catch (Exception ex)
             {
@@ -127,15 +116,19 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             return null;
         }
 
-        public async Task<Category[]> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<ShopItem[]> GetAllAsync(CancellationToken cancellationToken)
         {
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var allOfThem = await _context.Categories.ToArrayAsync(cancellationToken);
+                var allOfThem = await _context
+                    .ShopItems
+                    .Include(p => p.TranslatableDetails)
+                    .ThenInclude(pp => pp.Language)
+                    .ToArrayAsync(cancellationToken);
 
-                var mapped = allOfThem.Select(p => _mapper.Map<Category>(p));
+                var mapped = allOfThem.Select(p => _mapper.Map<ShopItem>(p));
 
                 return mapped.ToArray();
             }

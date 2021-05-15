@@ -1,15 +1,11 @@
-﻿using Albergue.Administrator.Entities;
-using Albergue.Administrator.Model;
-using Albergue.Administrator.Repository;
-using AutoMapper;
+﻿using Albergue.Administrator.Model;
+using Albergue.Administrator.SQLite.Database.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PubSub;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,17 +16,22 @@ namespace Albergue.Administrator.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly AdministrationConsoleDbContext _context;
+        private readonly IItemRepository _repository;
         private readonly ILogger<ItemController> _logger;
-        private Hub hub = Hub.Default;
+        private readonly Hub _hub;
 
+        private ItemController()
+        {
+            _hub = Hub.Default;
+        }
 
-        public ItemController(ILogger<ItemController> logger, AdministrationConsoleDbContext context, IMapper mapper)
+        public ItemController(
+            ILogger<ItemController> logger,
+            IItemRepository repository)
+            :this()
         {
             _logger = logger;
-            _context = context;
-            _mapper = mapper;
+            _repository = repository;
         }
 
         [HttpPost]
@@ -40,19 +41,10 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var added = await _repository.AddAsync(item, cancellationToken);
+                _hub.Publish(added);
 
-                var mapped = _mapper.Map<ShopItemEntry>(item);
-                mapped.Id = Guid.NewGuid().ToString();
-                var result = await _context.ShopItems.AddAsync(mapped, cancellationToken);
-
-                await _context.SaveChangesAsync(cancellationToken);
-
-                hub.Publish(result.Entity);
-
-                var mappedResult = _mapper.Map<ShopItem>(result.Entity);
-
-                return Ok(mappedResult);
+                return Ok(added);
             }
             catch (Exception ex)
             {
@@ -69,19 +61,10 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
-                var mapped = _mapper.Map<ShopItemEntry>(item);
+                var updated = await _repository.UpdateAsync(item, cancellationToken);
+                _hub.Publish(updated);
 
-
-                var existed = _context.ShopItems.AsQueryable().FirstOrDefault(p => p.Id == item.Id);
-                var updated = _mapper.Map(existed, mapped);
-                var result = await _context.ShopItems.AddAsync(updated);
-
-                await _context.SaveChangesAsync();
-
-                var mappedResult = _mapper.Map<ShopItem>(result.Entity);
-
-                return Ok(mappedResult);
+                return Ok(updated);
             }
             catch (Exception ex)
             {
@@ -98,16 +81,11 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
-                var mapped = _mapper.Map<ShopItemEntry>(item);
+                var deleted = await _repository.DeleteAsync(item, cancellationToken);
 
-
-                var deleted = _context.ShopItems.Remove(mapped);
-
-                var result = await _context.SaveChangesAsync();
-
-                if(result < 0)
+                if (deleted < 0)
                 {
+                    _hub.Publish(deleted);
                     return Ok();
                 }
 
@@ -129,18 +107,14 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var found = await _repository.GetByIdAsync(id, cancellationToken);
 
-                var found = await _context.ShopItems.AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
-
-                if(found == null)
+                if (found == null)
                 {
                     return NotFound();
                 }
 
-                var mappedResult = _mapper.Map<ShopItem>(found);
-
-                return Ok(mappedResult);
+                return Ok(found);
             }
             catch (Exception ex)
             {
@@ -157,17 +131,9 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
-                
-                var allOfThem = await _context
-                    .ShopItems
-                    .Include(p => p.TranslatableDetails)
-                    .ThenInclude(pp => pp.Language)
-                    .ToArrayAsync();
+                var allOfThem = await _repository.GetAllAsync(cancellationToken);
 
-                var mapped = allOfThem.Select(p => _mapper.Map<ShopItem>(p));
-
-                return Ok(mapped.ToArray());
+                return Ok(allOfThem);
             }
             catch (Exception ex)
             {

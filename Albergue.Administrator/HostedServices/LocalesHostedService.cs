@@ -1,5 +1,4 @@
-﻿using Albergue.Administrator.Entities;
-using Albergue.Administrator.Repository;
+﻿using Albergue.Administrator.Model;
 using Albergue.Administrator.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,15 +34,25 @@ namespace Albergue.Administrator.HostedServices
         {
             _logger.LogInformation("Locales Hosted Service running.");
 
-            _hub.Subscribe<ShopItemEntry>(async (item) =>
+            _hub.Subscribe<ShopItem>(async (item) =>
             {
-                await DoWorkAsync(item);
+                await DoWorkAsync();
+            });
+
+            _hub.Subscribe<Category>(async (item) =>
+            {
+                await DoWorkAsync();
+            });
+
+            _hub.Subscribe<Language>(async (item) =>
+            {
+                await DoWorkAsync();
             });
 
             return Task.CompletedTask;
         }
 
-        private async Task DoWorkAsync(object state)
+        private async Task DoWorkAsync(object state = null)
         {
             try
             {

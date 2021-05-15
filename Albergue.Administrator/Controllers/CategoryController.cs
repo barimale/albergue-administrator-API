@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PubSub;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,18 +17,22 @@ namespace Albergue.Administrator.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly ICategoryRepository _repository;
         private readonly ILogger<CategoryController> _logger;
+        private readonly Hub _hub;
+
+        private CategoryController()
+        {
+            _hub = Hub.Default;
+        }
 
         public CategoryController(
             ILogger<CategoryController> logger,
-            ICategoryRepository repository,
-            IMapper mapper)
+            ICategoryRepository repository)
+            : this()
         {
             _logger = logger;
             _repository = repository;
-            _mapper = mapper;
         }
 
         [HttpPost]
@@ -38,6 +43,7 @@ namespace Albergue.Administrator.Controllers
             try
             {
                 var added = await _repository.AddAsync(item, cancellationToken);
+                _hub.Publish(added);
 
                 return Ok(added);
             }
@@ -57,6 +63,7 @@ namespace Albergue.Administrator.Controllers
             try
             {
                 var updated = await _repository.UpdateAsync(item, cancellationToken);
+                _hub.Publish(updated);
 
                 return Ok(updated);
             }
@@ -75,10 +82,12 @@ namespace Albergue.Administrator.Controllers
         {
             try
             {
-                var result = await _repository.DeleteAsync(item, cancellationToken);
+                var deleted = await _repository.DeleteAsync(item, cancellationToken);
 
-                if (result < 0)
+                if (deleted < 0)
                 {
+                    _hub.Publish(item);
+
                     return Ok();
                 }
 
