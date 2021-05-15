@@ -20,7 +20,7 @@ namespace Albergue.Administrator.Repository
             builder
                .HasOne(p => p.Language)
                .WithOne(pp => pp.CategoryTranslatableDetailsEntry)
-               .HasForeignKey<LanguageCategoryEntry>(ppp => ppp.CategoryTranslatableDetailsEntryId)
+               .HasForeignKey<LanguageMapEntry>(ppp => ppp.CategoryTranslatableDetailsEntryId)
                .OnDelete(DeleteBehavior.Cascade);
         }
     }

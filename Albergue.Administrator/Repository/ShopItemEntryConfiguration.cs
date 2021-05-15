@@ -19,10 +19,6 @@ namespace Albergue.Administrator.Repository
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(p => p.Active).HasConversion<bool>();
-
-            //builder.HasMany(dm => dm.TranslatableDetails)
-            //   .WithOne(p => p.ShopItem)
-            //   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

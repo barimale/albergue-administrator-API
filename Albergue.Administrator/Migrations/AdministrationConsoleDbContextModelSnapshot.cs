@@ -58,15 +58,72 @@ namespace Albergue.Administrator.Migrations
                     b.Property<string>("Alpha2Code")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
+                    b.Property<string>("CategoryTranslatableDetailsEntryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShopItemTranslatableDetailsEntryId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryTranslatableDetailsEntryId");
+
+                    b.HasIndex("ShopItemTranslatableDetailsEntryId");
+
                     b.ToTable("Languages");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("LanguageBaseEntry");
+                    b.HasData(
+                        new
+                        {
+                            Id = "88b14288-1aa4-45f7-91c8-41e7dd49d388",
+                            Alpha2Code = "EN"
+                        },
+                        new
+                        {
+                            Id = "fd50f6ff-4901-412d-8b2d-73190d7207f1",
+                            Alpha2Code = "NL"
+                        },
+                        new
+                        {
+                            Id = "d5bba36f-c938-499a-a89f-b77cf91cf38e",
+                            Alpha2Code = "PT"
+                        },
+                        new
+                        {
+                            Id = "c94528ec-5e3c-4147-9847-d963a2eb7026",
+                            Alpha2Code = "DE"
+                        });
+                });
+
+            modelBuilder.Entity("Albergue.Administrator.Entities.LanguageMapEntry", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CategoryTranslatableDetailsEntryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LaguageBaseId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LanguageBaseEntryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShopItemTranslatableDetailsEntryId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryTranslatableDetailsEntryId")
+                        .IsUnique();
+
+                    b.HasIndex("LanguageBaseEntryId");
+
+                    b.HasIndex("ShopItemTranslatableDetailsEntryId")
+                        .IsUnique();
+
+                    b.ToTable("LanguageMaps");
                 });
 
             modelBuilder.Entity("Albergue.Administrator.Entities.ShopItemEntry", b =>
@@ -231,15 +288,15 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a0084c4b-83b5-4bde-aed7-47f86cc4c49a",
+                            Id = "6a16f80a-ec20-4cce-b7dc-02247d563764",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0e938785-0a76-49b6-847c-98381d62793b",
+                            ConcurrencyStamp = "c6edca81-66ac-4ead-bf23-a993113be6ee",
                             Email = "mateusz.wolnica@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDuhq3UEDBjhwk21k4TsMyioe7lggE7I/bwNdMdSlMd8TXHxt9QwjpU8TuPtbgzX2A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKRSJC2uSkng24cd2901CPFSc5atKzsWCOjOF1k34HZIZ8U916Ebcz6RBOvRcGGlyw==",
                             PhoneNumber = "0048665337563",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
@@ -331,36 +388,6 @@ namespace Albergue.Administrator.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Albergue.Administrator.Entities.LanguageCategoryEntry", b =>
-                {
-                    b.HasBaseType("Albergue.Administrator.Entities.LanguageBaseEntry");
-
-                    b.Property<string>("CategoryTranslatableDetailsEntryId")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ParentId");
-
-                    b.HasIndex("CategoryTranslatableDetailsEntryId")
-                        .IsUnique();
-
-                    b.HasDiscriminator().HasValue("LanguageCategoryEntry");
-                });
-
-            modelBuilder.Entity("Albergue.Administrator.Entities.LanguageShopItemEntry", b =>
-                {
-                    b.HasBaseType("Albergue.Administrator.Entities.LanguageBaseEntry");
-
-                    b.Property<string>("ShopItemTranslatableDetailsEntryId")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ParentId");
-
-                    b.HasIndex("ShopItemTranslatableDetailsEntryId")
-                        .IsUnique();
-
-                    b.HasDiscriminator().HasValue("LanguageShopItemEntry");
-                });
-
             modelBuilder.Entity("Albergue.Administrator.Entities.CategoryTranslatableDetailsEntry", b =>
                 {
                     b.HasOne("Albergue.Administrator.Entities.CategoryEntry", "Category")
@@ -368,6 +395,44 @@ namespace Albergue.Administrator.Migrations
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Albergue.Administrator.Entities.LanguageBaseEntry", b =>
+                {
+                    b.HasOne("Albergue.Administrator.Entities.CategoryTranslatableDetailsEntry", "CategoryTranslatableDetailsEntry")
+                        .WithMany()
+                        .HasForeignKey("CategoryTranslatableDetailsEntryId");
+
+                    b.HasOne("Albergue.Administrator.Entities.ShopItemTranslatableDetailsEntry", "ShopItemTranslatableDetailsEntry")
+                        .WithMany()
+                        .HasForeignKey("ShopItemTranslatableDetailsEntryId");
+
+                    b.Navigation("CategoryTranslatableDetailsEntry");
+
+                    b.Navigation("ShopItemTranslatableDetailsEntry");
+                });
+
+            modelBuilder.Entity("Albergue.Administrator.Entities.LanguageMapEntry", b =>
+                {
+                    b.HasOne("Albergue.Administrator.Entities.CategoryTranslatableDetailsEntry", "CategoryTranslatableDetailsEntry")
+                        .WithOne("Language")
+                        .HasForeignKey("Albergue.Administrator.Entities.LanguageMapEntry", "CategoryTranslatableDetailsEntryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Albergue.Administrator.Entities.LanguageBaseEntry", "LanguageBaseEntry")
+                        .WithMany()
+                        .HasForeignKey("LanguageBaseEntryId");
+
+                    b.HasOne("Albergue.Administrator.Entities.ShopItemTranslatableDetailsEntry", "ShopItemTranslatableDetailsEntry")
+                        .WithOne("Language")
+                        .HasForeignKey("Albergue.Administrator.Entities.LanguageMapEntry", "ShopItemTranslatableDetailsEntryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("CategoryTranslatableDetailsEntry");
+
+                    b.Navigation("LanguageBaseEntry");
+
+                    b.Navigation("ShopItemTranslatableDetailsEntry");
                 });
 
             modelBuilder.Entity("Albergue.Administrator.Entities.ShopItemEntry", b =>
@@ -439,26 +504,6 @@ namespace Albergue.Administrator.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Albergue.Administrator.Entities.LanguageCategoryEntry", b =>
-                {
-                    b.HasOne("Albergue.Administrator.Entities.CategoryTranslatableDetailsEntry", "CategoryTranslatableDetailsEntry")
-                        .WithOne("Language")
-                        .HasForeignKey("Albergue.Administrator.Entities.LanguageCategoryEntry", "CategoryTranslatableDetailsEntryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("CategoryTranslatableDetailsEntry");
-                });
-
-            modelBuilder.Entity("Albergue.Administrator.Entities.LanguageShopItemEntry", b =>
-                {
-                    b.HasOne("Albergue.Administrator.Entities.ShopItemTranslatableDetailsEntry", "ShopItemTranslatableDetailsEntry")
-                        .WithOne("Language")
-                        .HasForeignKey("Albergue.Administrator.Entities.LanguageShopItemEntry", "ShopItemTranslatableDetailsEntryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("ShopItemTranslatableDetailsEntry");
                 });
 
             modelBuilder.Entity("Albergue.Administrator.Entities.CategoryEntry", b =>

@@ -42,7 +42,11 @@ namespace Albergue.Administrator
                     .UseSqlite(Configuration.GetConnectionString("AdministrationConsoleDbContext"),
                 b => b.MigrationsAssembly(typeof(AdministrationConsoleDbContext).Assembly.FullName)));
 
-            //SuppressForeignKeyEnforcement
+            //services.AddDbContext<AdministrationConsoleDbContext>(options =>
+            //    options
+            //        .UseSqlServer(Configuration.GetConnectionString("MSSQLAdministrationConsoleDbContext"),
+            //    b => b.MigrationsAssembly(typeof(AdministrationConsoleDbContext).Assembly.FullName)));
+            ////SuppressForeignKeyEnforcement
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AdministrationConsoleDbContext>()

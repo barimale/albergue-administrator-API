@@ -10,7 +10,7 @@ namespace Albergue.Administrator.Entities
         public string ShortDescription { get; set; }
         public string Description { get; set; }
 
-        public LanguageShopItemEntry Language { get; set; }
+        public LanguageMapEntry Language { get; set; }
 
         public string ShopItemId { get; set; }
         public ShopItemEntry ShopItem { get; set; }

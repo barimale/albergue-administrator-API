@@ -10,10 +10,12 @@ namespace Albergue.Administrator.Mappings
         {
             CreateMap<Category, CategoryEntry>().ReverseMap();
             CreateMap<ShopItem, ShopItemEntry>().ReverseMap();
-            CreateMap<Language, LanguageShopItemEntry>().ReverseMap();
+            CreateMap<Language, LanguageBaseEntry>().ReverseMap();
+            //CreateMap<LanguageMap, LanguageMapEntry>().ReverseMap();
             CreateMap<CategoryTranslatableDetails, CategoryTranslatableDetailsEntry>().ReverseMap();
             CreateMap<ShopItemTranslatableDetails, ShopItemTranslatableDetailsEntry>().ReverseMap();
 
+            CreateMap<LanguageMapEntry, LanguageMapEntry>();
             CreateMap<ShopItemTranslatableDetails, ShopItemTranslatableDetails>();
             CreateMap<ShopItemTranslatableDetailsEntry, ShopItemTranslatableDetailsEntry>();
             CreateMap<ShopItemEntry, ShopItemEntry>();

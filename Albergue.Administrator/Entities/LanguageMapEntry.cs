@@ -4,12 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Albergue.Administrator.Entities
 {
-    public class LanguageBaseEntry
+    public class LanguageMapEntry
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public string Id { get; set; }
-        public string Alpha2Code { get; set; }
+
+        public string LaguageBaseId { get; set; }
+        public LanguageBaseEntry LanguageBaseEntry { get; set; }
 
         public string CategoryTranslatableDetailsEntryId { get; set; }
         public CategoryTranslatableDetailsEntry CategoryTranslatableDetailsEntry { get; set; }

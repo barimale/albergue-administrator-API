@@ -17,15 +17,15 @@ namespace Albergue.Administrator.Repository
         public DbSet<ShopItemEntry> ShopItemsTranslationDetails { get; set; }
         public DbSet<CategoryEntry> Categories { get; set; }
         public DbSet<CategoryTranslatableDetailsEntry> CategoriesTranslationDetails { get; set; }
-
         public DbSet<LanguageBaseEntry> Languages { get; set; }
+        public DbSet<LanguageMapEntry> LanguageMaps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new LanguageCategoryEntryConfiguration());
-            modelBuilder.ApplyConfiguration(new LanguageShopItemEntryConfiguration());
+            modelBuilder.ApplyConfiguration(new LanguageBaseEntryConfiguration());
+            modelBuilder.ApplyConfiguration(new LanguageMapsEntryConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryEntryConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryTranslatableDetailsEntryConfiguration());
             modelBuilder.ApplyConfiguration(new IdentityUserEntryConfiguration());
