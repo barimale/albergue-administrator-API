@@ -77,15 +77,15 @@ namespace Albergue.Administrator.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeleteItemAsync(ShopItem item, CancellationToken cancellationToken)
+        public async Task<ActionResult> DeleteItemAsync(string id, CancellationToken cancellationToken)
         {
             try
             {
-                var deleted = await _repository.DeleteAsync(item, cancellationToken);
+                var deleted = await _repository.DeleteAsync(id, cancellationToken);
 
                 if (deleted < 0)
                 {
-                    _hub.Publish(deleted);
+                    _hub.Publish(id);
                     return Ok();
                 }
 
