@@ -75,18 +75,18 @@ namespace Albergue.Administrator.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeleteCategoryAsync(Category item, CancellationToken cancellationToken)
+        public async Task<ActionResult> DeleteCategoryAsync(string id, CancellationToken cancellationToken)
         {
             try
             {
-                var deleted = await _repository.DeleteAsync(item, cancellationToken);
+                var deleted = await _repository.DeleteAsync(id, cancellationToken);
 
                 if (deleted < 0)
                 {
-                    _hub.Publish(item);
+                    _hub.Publish(id);
 
                     return Ok();
                 }

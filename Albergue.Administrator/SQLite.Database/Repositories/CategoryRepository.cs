@@ -75,16 +75,15 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             }
         }
 
-        public async Task<int> DeleteAsync(Category item, CancellationToken cancellationToken)
+        public async Task<int> DeleteAsync(string id, CancellationToken cancellationToken)
         {
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var mapped = _mapper.Map<CategoryEntry>(item);
+                var found = await _context.Categories.FirstOrDefaultAsync(p => p.Id == id);
 
-
-                var deleted = _context.Categories.Remove(mapped);
+                var deleted = _context.Categories.Remove(found);
 
                 var result = await _context.SaveChangesAsync(cancellationToken);
 

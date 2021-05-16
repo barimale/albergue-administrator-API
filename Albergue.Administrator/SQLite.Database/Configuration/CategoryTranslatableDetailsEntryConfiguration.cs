@@ -15,13 +15,14 @@ namespace Albergue.Administrator.Repository.Database.Configuration
             builder
                 .HasOne(p => p.Category)
                 .WithMany(pp => pp.TranslatableDetails)
-                .HasForeignKey(ppp => new { ppp.CategoryId });
+                .HasForeignKey(ppp => new { ppp.CategoryId })
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                .HasOne(p => p.Language)
                .WithOne(pp => pp.CategoryTranslatableDetailsEntry)
-               .HasForeignKey<LanguageMapEntry>(ppp => ppp.CategoryTranslatableDetailsEntryId)
-               .OnDelete(DeleteBehavior.Cascade);
+               .HasForeignKey<LanguageMapEntry>(ppp => ppp.CategoryTranslatableDetailsEntryId);
+               //.OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

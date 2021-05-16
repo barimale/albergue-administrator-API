@@ -78,22 +78,22 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a8d73d39-852a-465b-b56d-a363dcf5f588",
+                            Id = "5ecafd93-cb49-4744-8ac8-b788796350f6",
                             Alpha2Code = "EN"
                         },
                         new
                         {
-                            Id = "2c406fc6-fada-4b91-8598-7f2a4a58c834",
+                            Id = "731d928c-91f2-48e4-8766-889dba940224",
                             Alpha2Code = "NL"
                         },
                         new
                         {
-                            Id = "254af49c-295d-41ea-ad4a-9f2a1b0708f2",
+                            Id = "ed450bd5-a40c-4e9e-87be-1e9e3ca674e7",
                             Alpha2Code = "PT"
                         },
                         new
                         {
-                            Id = "09879122-edf8-490a-b7fb-82da20842307",
+                            Id = "264522c3-8f87-4b1f-bfb1-8d2ad9009606",
                             Alpha2Code = "DE"
                         });
                 });
@@ -294,15 +294,15 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6f47773e-04b9-498b-9df2-d0714c74692b",
+                            Id = "cf4159e2-c7a4-4eb8-a658-e087a71eeced",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c76c8293-2d86-4675-a609-c54764ceb68a",
+                            ConcurrencyStamp = "8ac0efff-76fc-4a88-a1cc-eaa8d4ee4f05",
                             Email = "mateusz.wolnica@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG7oB7nbKkc/HwmukK0pQcy+682MJOccCd5/wmuDtNxdALiKdwuQ8nOUX06GtQmWFA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEyu8ZAmUH5gLazwOsHHEL3lekUgSHoorhO+LODazHPCW/l+h51ZiwH8jOxdDwfnyw==",
                             PhoneNumber = "0048665337563",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
@@ -398,7 +398,8 @@ namespace Albergue.Administrator.Migrations
                 {
                     b.HasOne("Albergue.Administrator.Entities.CategoryEntry", "Category")
                         .WithMany("TranslatableDetails")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Category");
                 });
@@ -422,8 +423,7 @@ namespace Albergue.Administrator.Migrations
                 {
                     b.HasOne("Albergue.Administrator.Entities.CategoryTranslatableDetailsEntry", "CategoryTranslatableDetailsEntry")
                         .WithOne("Language")
-                        .HasForeignKey("Albergue.Administrator.Entities.LanguageMapEntry", "CategoryTranslatableDetailsEntryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Albergue.Administrator.Entities.LanguageMapEntry", "CategoryTranslatableDetailsEntryId");
 
                     b.HasOne("Albergue.Administrator.Entities.LanguageBaseEntry", "LanguageBaseEntry")
                         .WithMany()
