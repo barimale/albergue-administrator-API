@@ -54,18 +54,18 @@ namespace Albergue.Administrator.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeleteLanguageAsync(Language item, CancellationToken cancellationToken)
+        public async Task<ActionResult> DeleteLanguageAsync(string id, CancellationToken cancellationToken)
         {
             try
             {
-                var deleted = await _repository.DeleteAsync(item, cancellationToken);
+                var deleted = await _repository.DeleteAsync(id, cancellationToken);
 
                 if (deleted < 0)
                 {
-                    _hub.Publish(item);
+                    _hub.Publish(id);
                     return Ok();
                 }
             }

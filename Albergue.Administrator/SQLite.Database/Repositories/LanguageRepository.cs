@@ -49,15 +49,17 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             }
         }
 
-        public async Task<int> DeleteAsync(Language item, CancellationToken? cancellationToken = null)
+        public async Task<int> DeleteAsync(string id, CancellationToken? cancellationToken = null)
         {
             try
             {
                 cancellationToken?.ThrowIfCancellationRequested();
 
-                var mapped = _mapper.Map<LanguageBaseEntry>(item);
+                var toBeDeleted = await _context
+                    .Languages
+                    .FirstOrDefaultAsync(p => p.Id == id, cancellationToken?? default);
 
-                var deleted = _context.Languages.Remove(mapped);
+                var deleted = _context.Languages.Remove(toBeDeleted);
 
                 return await _context.SaveChangesAsync(cancellationToken?? default);
             }

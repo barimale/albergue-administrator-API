@@ -51,6 +51,11 @@ namespace Albergue.Administrator.HostedServices
                 await DoWorkAsync();
             });
 
+            _hub.Subscribe<string>(async (item) =>
+            {
+                await DoWorkAsync();
+            });
+
             return Task.CompletedTask;
         }
 
