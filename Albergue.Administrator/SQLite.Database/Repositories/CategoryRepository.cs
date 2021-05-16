@@ -57,7 +57,6 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
 
                 var mapped = _mapper.Map<CategoryEntry>(item);
 
-
                 var existed = _context.Categories.AsQueryable().FirstOrDefault(p => p.Id == item.Id);
                 var updated = _mapper.Map(existed, mapped);
                 var result = await _context.Categories.AddAsync(updated, cancellationToken);
@@ -81,7 +80,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var found = await _context.Categories.FirstOrDefaultAsync(p => p.Id == id);
+                var found = await _context.Categories.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
                 var deleted = _context.Categories.Remove(found);
 

@@ -74,7 +74,7 @@ namespace Albergue.Administrator.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeleteItemAsync(string id, CancellationToken cancellationToken)
