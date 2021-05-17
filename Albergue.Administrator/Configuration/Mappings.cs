@@ -11,6 +11,7 @@ namespace Albergue.Administrator.Mappings
             CreateMap<Category, CategoryEntry>().ReverseMap();
             CreateMap<ShopItem, ShopItemEntry>().ReverseMap();
             CreateMap<Language, LanguageBaseEntry>().ReverseMap();
+            CreateMap<Image, ImageEntry>().ReverseMap();
             //CreateMap<LanguageMap, LanguageMapEntry>().ReverseMap();
             CreateMap<CategoryTranslatableDetails, CategoryTranslatableDetailsEntry>().ReverseMap();
             CreateMap<ShopItemTranslatableDetails, ShopItemTranslatableDetailsEntry>().ReverseMap();
@@ -20,6 +21,7 @@ namespace Albergue.Administrator.Mappings
             CreateMap<ShopItemTranslatableDetailsEntry, ShopItemTranslatableDetailsEntry>();
             CreateMap<ShopItemEntry, ShopItemEntry>();
             CreateMap<ShopItem, ShopItem>();
+            CreateMap<Image, Image>();
         }
     }
 }

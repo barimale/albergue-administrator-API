@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
 
 namespace Albergue.Administrator.Entities
 {
-    public class CategoryEntry
+    public class ImageEntry
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string Name { get; set; }
+        public byte[] ImageData { get; set; }
 
-        public List<CategoryTranslatableDetailsEntry> TranslatableDetails { get; set; }
-        public List<ShopItemEntry> ShopItems { get; set; }
+        public string ShopItemId { get; set; }
+        public ShopItemEntry ShopItem { get; set; }
     }
 }

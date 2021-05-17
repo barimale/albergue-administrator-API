@@ -100,6 +100,9 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
 
                 var found = await _context
                     .ShopItems
+                    .Include(p => p.Images)
+                    .Include(p => p.TranslatableDetails)
+                    .ThenInclude(pp => pp.Language)
                     .AsQueryable()
                     .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
@@ -126,6 +129,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
 
                 var allOfThem = await _context
                     .ShopItems
+                    .Include(p => p.Images)
                     .Include(p => p.TranslatableDetails)
                     .ThenInclude(pp => pp.Language)
                     .ToArrayAsync(cancellationToken);

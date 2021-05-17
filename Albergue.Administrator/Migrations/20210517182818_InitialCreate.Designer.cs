@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Albergue.Administrator.Migrations
 {
     [DbContext(typeof(AdministrationConsoleDbContext))]
-    [Migration("20210516185324_InitialCreate")]
+    [Migration("20210517182818_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,28 @@ namespace Albergue.Administrator.Migrations
                     b.ToTable("CategoriesTranslationDetails");
                 });
 
+            modelBuilder.Entity("Albergue.Administrator.Entities.ImageEntry", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShopItemId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShopItemId");
+
+                    b.ToTable("ImageEntry");
+                });
+
             modelBuilder.Entity("Albergue.Administrator.Entities.LanguageBaseEntry", b =>
                 {
                     b.Property<string>("Id")
@@ -80,22 +102,22 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5ecafd93-cb49-4744-8ac8-b788796350f6",
+                            Id = "6beb2c40-8a2b-40c2-b460-e3b882fe48f4",
                             Alpha2Code = "EN"
                         },
                         new
                         {
-                            Id = "731d928c-91f2-48e4-8766-889dba940224",
+                            Id = "42457eda-0df8-4d21-b015-cac3bc3f0db0",
                             Alpha2Code = "NL"
                         },
                         new
                         {
-                            Id = "ed450bd5-a40c-4e9e-87be-1e9e3ca674e7",
+                            Id = "a9ab33b8-7ca4-4214-8663-8ac0b9ff40d3",
                             Alpha2Code = "PT"
                         },
                         new
                         {
-                            Id = "264522c3-8f87-4b1f-bfb1-8d2ad9009606",
+                            Id = "b96487c7-94d5-44a8-ab6d-47b495316e88",
                             Alpha2Code = "DE"
                         });
                 });
@@ -179,6 +201,22 @@ namespace Albergue.Administrator.Migrations
                     b.HasIndex("ShopItemId");
 
                     b.ToTable("ShopItemTranslatableDetailsEntry");
+                });
+
+            modelBuilder.Entity("Albergue.Administrator.Model.Image", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -296,15 +334,15 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cf4159e2-c7a4-4eb8-a658-e087a71eeced",
+                            Id = "93eac46d-89c2-4d27-ba46-474a50088db6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8ac0efff-76fc-4a88-a1cc-eaa8d4ee4f05",
+                            ConcurrencyStamp = "2b1ebd19-3b68-4726-ad64-9c54a6a7b7d3",
                             Email = "mateusz.wolnica@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEyu8ZAmUH5gLazwOsHHEL3lekUgSHoorhO+LODazHPCW/l+h51ZiwH8jOxdDwfnyw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJTVY4L1oSrp0pS34nRCMCzbU60ctVgqj47OVwxOiOUHxXmj/2P1WDCgjz42Knef1A==",
                             PhoneNumber = "0048665337563",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
@@ -404,6 +442,16 @@ namespace Albergue.Administrator.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Albergue.Administrator.Entities.ImageEntry", b =>
+                {
+                    b.HasOne("Albergue.Administrator.Entities.ShopItemEntry", "ShopItem")
+                        .WithMany("Images")
+                        .HasForeignKey("ShopItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("ShopItem");
                 });
 
             modelBuilder.Entity("Albergue.Administrator.Entities.LanguageBaseEntry", b =>
@@ -528,6 +576,8 @@ namespace Albergue.Administrator.Migrations
 
             modelBuilder.Entity("Albergue.Administrator.Entities.ShopItemEntry", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("TranslatableDetails");
                 });
 

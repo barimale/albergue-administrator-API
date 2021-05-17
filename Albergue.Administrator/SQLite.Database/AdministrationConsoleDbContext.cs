@@ -1,4 +1,5 @@
 ﻿using Albergue.Administrator.Entities;
+using Albergue.Administrator.Model;
 using Albergue.Administrator.Repository.Database.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -20,11 +21,13 @@ namespace Albergue.Administrator.Repository
         public DbSet<CategoryTranslatableDetailsEntry> CategoriesTranslationDetails { get; set; }
         public DbSet<LanguageBaseEntry> Languages { get; set; }
         public DbSet<LanguageMapEntry> LanguageMaps { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ApplyConfiguration(new ImageEntryConfiguration());
             modelBuilder.ApplyConfiguration(new LanguageBaseEntryConfiguration());
             modelBuilder.ApplyConfiguration(new LanguageMapsEntryConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryEntryConfiguration());
