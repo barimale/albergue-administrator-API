@@ -8,6 +8,7 @@ namespace Albergue.Administrator.Mappings
     {
         public Mappings()
         {
+            //WIP put Id generating here
             CreateMap<Category, CategoryEntry>().ReverseMap();
             CreateMap<ShopItem, ShopItemEntry>().ReverseMap();
             CreateMap<Language, LanguageBaseEntry>().ReverseMap();

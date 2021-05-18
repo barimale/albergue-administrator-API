@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Albergue.Administrator.Migrations
 {
     [DbContext(typeof(AdministrationConsoleDbContext))]
-    [Migration("20210517182818_InitialCreate")]
+    [Migration("20210518181248_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,8 +60,8 @@ namespace Albergue.Administrator.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte[]>("ImageData")
-                        .HasColumnType("BLOB");
+                    b.Property<string>("ImageData")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
@@ -73,7 +73,7 @@ namespace Albergue.Administrator.Migrations
 
                     b.HasIndex("ShopItemId");
 
-                    b.ToTable("ImageEntry");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Albergue.Administrator.Entities.LanguageBaseEntry", b =>
@@ -102,22 +102,22 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6beb2c40-8a2b-40c2-b460-e3b882fe48f4",
+                            Id = "954b1843-b577-4ed9-a1fb-14af26fbf676",
                             Alpha2Code = "EN"
                         },
                         new
                         {
-                            Id = "42457eda-0df8-4d21-b015-cac3bc3f0db0",
+                            Id = "bb29e964-2d3d-48fe-ab83-4f9237f23861",
                             Alpha2Code = "NL"
                         },
                         new
                         {
-                            Id = "a9ab33b8-7ca4-4214-8663-8ac0b9ff40d3",
+                            Id = "40a02573-beb2-447f-8d6a-3b92a6eb2fa6",
                             Alpha2Code = "PT"
                         },
                         new
                         {
-                            Id = "b96487c7-94d5-44a8-ab6d-47b495316e88",
+                            Id = "303dc261-b0d3-42b8-981a-68e8b28a7c10",
                             Alpha2Code = "DE"
                         });
                 });
@@ -201,22 +201,6 @@ namespace Albergue.Administrator.Migrations
                     b.HasIndex("ShopItemId");
 
                     b.ToTable("ShopItemTranslatableDetailsEntry");
-                });
-
-            modelBuilder.Entity("Albergue.Administrator.Model.Image", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("ImageData")
-                        .HasColumnType("BLOB");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -334,15 +318,15 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "93eac46d-89c2-4d27-ba46-474a50088db6",
+                            Id = "f33e2d32-3f73-4db7-bb78-965ae59b8f2b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2b1ebd19-3b68-4726-ad64-9c54a6a7b7d3",
+                            ConcurrencyStamp = "76ff585c-c3e8-4327-a2c6-6562c3e8a64c",
                             Email = "mateusz.wolnica@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJTVY4L1oSrp0pS34nRCMCzbU60ctVgqj47OVwxOiOUHxXmj/2P1WDCgjz42Knef1A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGmwePorIsWSD3dLtUwYIjlrCDQkwTJQvfMEIUAUfd64qE2Kp35cLlCb+BRl/Dl+PQ==",
                             PhoneNumber = "0048665337563",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",

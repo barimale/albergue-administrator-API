@@ -18,7 +18,7 @@ namespace Albergue.Administrator.Repository.Database.Configuration
                 .HasForeignKey(ppp => ppp.ShopItemId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(p => p.ImageData).HasConversion<byte[]>();
+            builder.Property(p => p.ImageData);
         }
     }
 }

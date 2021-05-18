@@ -59,19 +59,6 @@ namespace Albergue.Administrator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Images",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    ImageData = table.Column<byte[]>(type: "BLOB", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -218,19 +205,19 @@ namespace Albergue.Administrator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ImageEntry",
+                name: "Images",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    ImageData = table.Column<byte[]>(type: "BLOB", nullable: true),
+                    ImageData = table.Column<string>(type: "TEXT", nullable: true),
                     ShopItemId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ImageEntry", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ImageEntry_ShopItemEntry_ShopItemId",
+                        name: "FK_Images_ShopItemEntry_ShopItemId",
                         column: x => x.ShopItemId,
                         principalTable: "ShopItemEntry",
                         principalColumn: "Id",
@@ -321,27 +308,27 @@ namespace Albergue.Administrator.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "93eac46d-89c2-4d27-ba46-474a50088db6", 0, "2b1ebd19-3b68-4726-ad64-9c54a6a7b7d3", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEJTVY4L1oSrp0pS34nRCMCzbU60ctVgqj47OVwxOiOUHxXmj/2P1WDCgjz42Knef1A==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
+                values: new object[] { "f33e2d32-3f73-4db7-bb78-965ae59b8f2b", 0, "76ff585c-c3e8-4327-a2c6-6562c3e8a64c", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEGmwePorIsWSD3dLtUwYIjlrCDQkwTJQvfMEIUAUfd64qE2Kp35cLlCb+BRl/Dl+PQ==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "6beb2c40-8a2b-40c2-b460-e3b882fe48f4", "EN", null, null });
+                values: new object[] { "954b1843-b577-4ed9-a1fb-14af26fbf676", "EN", null, null });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "42457eda-0df8-4d21-b015-cac3bc3f0db0", "NL", null, null });
+                values: new object[] { "bb29e964-2d3d-48fe-ab83-4f9237f23861", "NL", null, null });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "a9ab33b8-7ca4-4214-8663-8ac0b9ff40d3", "PT", null, null });
+                values: new object[] { "40a02573-beb2-447f-8d6a-3b92a6eb2fa6", "PT", null, null });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "b96487c7-94d5-44a8-ab6d-47b495316e88", "DE", null, null });
+                values: new object[] { "303dc261-b0d3-42b8-981a-68e8b28a7c10", "DE", null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -386,8 +373,8 @@ namespace Albergue.Administrator.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageEntry_ShopItemId",
-                table: "ImageEntry",
+                name: "IX_Images_ShopItemId",
+                table: "Images",
                 column: "ShopItemId");
 
             migrationBuilder.CreateIndex(
@@ -444,9 +431,6 @@ namespace Albergue.Administrator.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "ImageEntry");
 
             migrationBuilder.DropTable(
                 name: "Images");

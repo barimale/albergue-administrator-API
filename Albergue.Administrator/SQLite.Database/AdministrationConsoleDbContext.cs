@@ -21,7 +21,7 @@ namespace Albergue.Administrator.Repository
         public DbSet<CategoryTranslatableDetailsEntry> CategoriesTranslationDetails { get; set; }
         public DbSet<LanguageBaseEntry> Languages { get; set; }
         public DbSet<LanguageMapEntry> LanguageMaps { get; set; }
-        public DbSet<Image> Images { get; set; }
+        public DbSet<ImageEntry> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -31,7 +31,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var mapped = _mapper.Map<ShopItemEntry>(item);
-                mapped.Id = Guid.NewGuid().ToString();
+
                 var result = await _context.ShopItems.AddAsync(mapped, cancellationToken);
 
                 await _context.SaveChangesAsync(cancellationToken);

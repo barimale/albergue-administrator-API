@@ -7,7 +7,7 @@ namespace Albergue.Administrator.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string Name { get; set; }
-        public byte[] ImageData { get; set; }
+        public string ImageData { get; set; }
 
         public string ShopItemId { get; set; }
         public ShopItemEntry ShopItem { get; set; }
