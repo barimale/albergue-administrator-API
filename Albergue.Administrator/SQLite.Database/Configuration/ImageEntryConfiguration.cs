@@ -1,6 +1,8 @@
 ﻿using Albergue.Administrator.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Text;
 
 namespace Albergue.Administrator.Repository.Database.Configuration
 {
@@ -8,6 +10,10 @@ namespace Albergue.Administrator.Repository.Database.Configuration
     {
         public void Configure(EntityTypeBuilder<ImageEntry> builder)
         {
+            var converter = new ValueConverter<string, byte[]>(
+                v => Encoding.ASCII.GetBytes(v),
+                v => Encoding.ASCII.GetString(v));
+
             builder.HasKey(o => o.Id);
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
@@ -18,7 +24,7 @@ namespace Albergue.Administrator.Repository.Database.Configuration
                 .HasForeignKey(ppp => ppp.ShopItemId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(p => p.ImageData);
+            builder.Property(p => p.ImageData).HasConversion(converter);
         }
     }
 }
