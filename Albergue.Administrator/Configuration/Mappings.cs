@@ -17,10 +17,13 @@ namespace Albergue.Administrator.Mappings
             CreateMap<CategoryTranslatableDetails, CategoryTranslatableDetailsEntry>().ReverseMap();
             CreateMap<ShopItemTranslatableDetails, ShopItemTranslatableDetailsEntry>().ReverseMap();
 
+            //WIP check if blowed mappings are needed at all
             CreateMap<LanguageMapEntry, LanguageMapEntry>();
             CreateMap<ShopItemTranslatableDetails, ShopItemTranslatableDetails>();
             CreateMap<ShopItemTranslatableDetailsEntry, ShopItemTranslatableDetailsEntry>();
             CreateMap<ShopItemEntry, ShopItemEntry>();
+            CreateMap<Category, Category>();
+            CreateMap<CategoryTranslatableDetails, CategoryTranslatableDetails>();
             CreateMap<ShopItem, ShopItem>();
             CreateMap<Image, Image>();
         }

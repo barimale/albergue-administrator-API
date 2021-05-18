@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Albergue.Administrator.Migrations
 {
     [DbContext(typeof(AdministrationConsoleDbContext))]
-    [Migration("20210518190214_InitialCreate")]
+    [Migration("20210518205943_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,9 +22,6 @@ namespace Albergue.Administrator.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -102,22 +99,22 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b6e2e404-d5f8-4aae-b33c-8d39724c463e",
+                            Id = "8f391440-a617-4161-a1cf-c3ac53295560",
                             Alpha2Code = "EN"
                         },
                         new
                         {
-                            Id = "c52827ef-30c7-4c3e-8eaf-fa2b2f867526",
+                            Id = "6f657f23-f72d-4fbd-880f-de8387a3dc69",
                             Alpha2Code = "NL"
                         },
                         new
                         {
-                            Id = "e6c442cf-703e-486b-852a-545603bc3186",
+                            Id = "1f7f76e2-8cb1-4664-9135-115d09ecc70a",
                             Alpha2Code = "PT"
                         },
                         new
                         {
-                            Id = "4a9e8f3e-0f41-4a9c-b153-60e159f01d5e",
+                            Id = "b3cb9dc8-f4de-449b-9ca5-32441516f410",
                             Alpha2Code = "DE"
                         });
                 });
@@ -318,15 +315,15 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0d27acb2-af7d-4813-bb43-dbe58319362e",
+                            Id = "42c0d6a9-b045-4f2a-95d9-9e169523f185",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "11813b81-0dde-4eba-9c6c-b841a6ef3273",
+                            ConcurrencyStamp = "2da8c24a-7706-47ed-8f4b-de73e8ffbb06",
                             Email = "mateusz.wolnica@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIzuK+oSEI8tVnSLQxLcSf+8ITkUe2kLpisjeg3BkkJ7JpjoFL4zjFwk8ln/Qa+dwg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAX9H+DKGBVWUeu6VohZYSR761JKK0rPNBnw6VnToL+uXEpaqlGSviW+U0q6L0y7JQ==",
                             PhoneNumber = "0048665337563",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",

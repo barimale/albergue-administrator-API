@@ -50,8 +50,7 @@ namespace Albergue.Administrator.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -308,27 +307,27 @@ namespace Albergue.Administrator.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "0d27acb2-af7d-4813-bb43-dbe58319362e", 0, "11813b81-0dde-4eba-9c6c-b841a6ef3273", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEIzuK+oSEI8tVnSLQxLcSf+8ITkUe2kLpisjeg3BkkJ7JpjoFL4zjFwk8ln/Qa+dwg==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
+                values: new object[] { "42c0d6a9-b045-4f2a-95d9-9e169523f185", 0, "2da8c24a-7706-47ed-8f4b-de73e8ffbb06", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEAX9H+DKGBVWUeu6VohZYSR761JKK0rPNBnw6VnToL+uXEpaqlGSviW+U0q6L0y7JQ==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "b6e2e404-d5f8-4aae-b33c-8d39724c463e", "EN", null, null });
+                values: new object[] { "8f391440-a617-4161-a1cf-c3ac53295560", "EN", null, null });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "c52827ef-30c7-4c3e-8eaf-fa2b2f867526", "NL", null, null });
+                values: new object[] { "6f657f23-f72d-4fbd-880f-de8387a3dc69", "NL", null, null });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "e6c442cf-703e-486b-852a-545603bc3186", "PT", null, null });
+                values: new object[] { "1f7f76e2-8cb1-4664-9135-115d09ecc70a", "PT", null, null });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "4a9e8f3e-0f41-4a9c-b153-60e159f01d5e", "DE", null, null });
+                values: new object[] { "b3cb9dc8-f4de-449b-9ca5-32441516f410", "DE", null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
