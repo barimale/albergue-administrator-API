@@ -50,15 +50,10 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
+
                 var mapped = _mapper.Map<ShopItemEntry>(item);
 
-                var existed = await _context
-                    .ShopItems
-                    .AsQueryable()
-                    .FirstOrDefaultAsync(p => p.Id == item.Id, cancellationToken);
-
-                var updated = _mapper.Map(existed, mapped);
-                var result = await _context.ShopItems.AddAsync(updated);
+                var result = _context.ShopItems.Update(mapped);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
