@@ -101,6 +101,7 @@ namespace Albergue.Administrator.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -126,6 +127,7 @@ namespace Albergue.Administrator.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category[]))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

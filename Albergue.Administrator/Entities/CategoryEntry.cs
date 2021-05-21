@@ -7,6 +7,7 @@ namespace Albergue.Administrator.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
+        public string KeyName { get; set; }
 
         public List<CategoryTranslatableDetailsEntry> TranslatableDetails { get; set; }
         public List<ShopItemEntry> ShopItems { get; set; }

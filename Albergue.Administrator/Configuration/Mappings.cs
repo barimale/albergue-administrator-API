@@ -1,6 +1,7 @@
 ﻿using Albergue.Administrator.Entities;
 using Albergue.Administrator.Model;
 using AutoMapper;
+using System.Linq;
 
 namespace Albergue.Administrator.Mappings
 {
@@ -8,7 +9,6 @@ namespace Albergue.Administrator.Mappings
     {
         public Mappings()
         {
-            //WIP put Id generating here
             CreateMap<Category, CategoryEntry>().ReverseMap();
             CreateMap<ShopItem, ShopItemEntry>().ReverseMap();
             CreateMap<Language, LanguageBaseEntry>().ReverseMap();
@@ -26,6 +26,11 @@ namespace Albergue.Administrator.Mappings
             CreateMap<CategoryTranslatableDetails, CategoryTranslatableDetails>();
             CreateMap<ShopItem, ShopItem>();
             CreateMap<Image, Image>();
+
+            //CreateMap<Category, KeyedCategory>().ForMember(p => p.Name,
+            //    opt => opt.MapFrom((src, dest, destMember, context) => {
+            //    var found = src.TranslatableDetails.FirstOrDefault(prop => prop.)
+            //})
         }
     }
 }

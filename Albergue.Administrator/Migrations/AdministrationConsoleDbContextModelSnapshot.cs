@@ -22,6 +22,9 @@ namespace Albergue.Administrator.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("KeyName")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -97,22 +100,22 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8f391440-a617-4161-a1cf-c3ac53295560",
+                            Id = "54342071-c8be-4023-b828-bf6c664a6c4d",
                             Alpha2Code = "EN"
                         },
                         new
                         {
-                            Id = "6f657f23-f72d-4fbd-880f-de8387a3dc69",
+                            Id = "cc2cdd26-7b9a-4446-a0a1-dc1229df8bcc",
                             Alpha2Code = "NL"
                         },
                         new
                         {
-                            Id = "1f7f76e2-8cb1-4664-9135-115d09ecc70a",
+                            Id = "4c11f1c9-97b1-4e2c-af72-afdf92c4dd22",
                             Alpha2Code = "PT"
                         },
                         new
                         {
-                            Id = "b3cb9dc8-f4de-449b-9ca5-32441516f410",
+                            Id = "f361ae5c-7383-4457-88ed-45d4bf7b9872",
                             Alpha2Code = "DE"
                         });
                 });
@@ -313,15 +316,15 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "42c0d6a9-b045-4f2a-95d9-9e169523f185",
+                            Id = "62db4e91-74d7-4aec-9c0c-ad5fbaf82871",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2da8c24a-7706-47ed-8f4b-de73e8ffbb06",
+                            ConcurrencyStamp = "4fdde050-78aa-4cbe-a690-710c155b59ea",
                             Email = "mateusz.wolnica@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAX9H+DKGBVWUeu6VohZYSR761JKK0rPNBnw6VnToL+uXEpaqlGSviW+U0q6L0y7JQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJVg6rKncsgrZvwy44I1xUt9Q6zrCGtUVuS6HrBeYLmx2UfP47hY6wS+F1AZF+PciQ==",
                             PhoneNumber = "0048665337563",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
