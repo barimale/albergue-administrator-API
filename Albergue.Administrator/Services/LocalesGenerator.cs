@@ -75,7 +75,7 @@ namespace Albergue.Administrator.Services
                         translations.TryAdd(translation.Key, translation.Value);
                     }
 
-                    await SaveAsync(translations, destinationFolder + "/" + lng.Alpha2Code + ".json");
+                    await SaveAsync(translations, destinationFolder + "/" + lng.Alpha2Code.ToLowerInvariant() + ".json");
                 });
             }
             catch (System.Exception ex)
