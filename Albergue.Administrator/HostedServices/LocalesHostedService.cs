@@ -76,6 +76,10 @@ namespace Albergue.Administrator.HostedServices
                         await _extractor.SaveLocallyAsync();
                     })
                 );
+
+
+                _logger.LogInformation(
+                    "Locales creation is finished. ");
             }
             catch (Exception ex)
             {
