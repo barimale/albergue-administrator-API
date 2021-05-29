@@ -44,7 +44,6 @@ namespace Albergue.Administrator.Services
 
                 languages.AsParallel().ForAll(async (lng) =>
                 {
-
                     var translations = new Dictionary<string, object>();
                     var categoryTranslations = categories.Select(
                         p => new KeyValuePair<string,object>(
