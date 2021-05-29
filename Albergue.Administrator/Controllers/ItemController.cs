@@ -126,6 +126,27 @@ namespace Albergue.Administrator.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("{categoryId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItem[]))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> GetItemsByCategoryIdAsync(string categoryId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var allOfThem = await _repository.GetByCategoryIdAsync(categoryId, cancellationToken);
+
+                return Ok(allOfThem);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return StatusCode(400);
+            }
+        }
+
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShopItem[]))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

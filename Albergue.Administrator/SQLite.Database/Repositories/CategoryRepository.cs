@@ -125,17 +125,17 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             return null;
         }
 
-        public async Task<Category[]> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<Category[]> GetAllAsync(CancellationToken? cancellationToken)
         {
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                cancellationToken?.ThrowIfCancellationRequested();
 
                 var allOfThem = await _context
                     .Categories
                     .Include(p => p.TranslatableDetails)
                     .ThenInclude(pp => pp.Language)
-                    .ToArrayAsync(cancellationToken);
+                    .ToArrayAsync(cancellationToken?? default);
 
                 var mapped = allOfThem.Select(p => _mapper.Map<Category>(p));
 

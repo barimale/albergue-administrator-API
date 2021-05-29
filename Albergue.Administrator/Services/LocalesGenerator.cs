@@ -12,7 +12,7 @@ namespace Albergue.Administrator.Services
     public class LocalesGenerator : ILocalesGenerator
     {
         private readonly ILanguageRepository _languageRepository;
-        private readonly ICategoryRepository _catgoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IItemRepository _itemRepository;
 
         private readonly ILogger<LocalesGenerator> _logger;
@@ -21,13 +21,13 @@ namespace Albergue.Administrator.Services
             ILogger<LocalesGenerator> logger,
             IConfiguration configuration,
             ILanguageRepository languageRepository,
-            ICategoryRepository catgoryRepository,
+            ICategoryRepository categoryRepository,
             IItemRepository itemRepository)
         {
             _logger = logger;
             Configuration = configuration;
             _languageRepository = languageRepository;
-            _catgoryRepository = catgoryRepository;
+            _categoryRepository = categoryRepository;
             _itemRepository = itemRepository;
         }
 
@@ -39,16 +39,43 @@ namespace Albergue.Administrator.Services
             {
                 var destinationFolder = Configuration.GetValue<string>("LocalesDir");
                 var languages = await _languageRepository.GetAllAsync();
-                var alphaCodes = languages.Select(p => p.Alpha2Code);
+                var categories = await _categoryRepository.GetAllAsync();
+                var items = await _itemRepository.GetAllAsync();
 
-                alphaCodes.AsParallel().ForAll(async (languageName) =>
+                languages.AsParallel().ForAll(async (lng) =>
                 {
-                    var translations = new Dictionary<string, string>
-                    {
-                        { "key", "value" }
-                    };
 
-                    await SaveAsync(translations, destinationFolder + "/" + languageName + ".json");
+                    var translations = new Dictionary<string, object>();
+                    var categoryTranslations = categories.Select(
+                        p => new KeyValuePair<string,object>(
+                            p.KeyName,
+                            p.TranslatableDetails.FirstOrDefault(pp => pp.LanguageId == lng.Id) != null ? p.TranslatableDetails.FirstOrDefault(pp => pp.LanguageId == lng.Id).Name : "Not found")
+                    );
+
+                    foreach(var translation in categoryTranslations)
+                    {
+                        translations.TryAdd(translation.Key, translation.Value);
+                    }
+
+                    var itemTranslations = new Dictionary<string, object>();
+                    foreach (var item in items)
+                    {
+                        var inner = new Dictionary<string, string>();
+                        inner.TryAdd("description", item.TranslatableDetails.FirstOrDefault(pp => pp.LanguageId == lng.Id) != null ? item.TranslatableDetails.FirstOrDefault(pp => pp.LanguageId == lng.Id).Description : "Not found");
+                        inner.TryAdd("shortDescription", item.TranslatableDetails.FirstOrDefault(pp => pp.LanguageId == lng.Id) != null ? item.TranslatableDetails.FirstOrDefault(pp => pp.LanguageId == lng.Id).ShortDescription : "Not found");
+                        inner.TryAdd("name", item.TranslatableDetails.FirstOrDefault(pp => pp.LanguageId == lng.Id) != null ? item.TranslatableDetails.FirstOrDefault(pp => pp.LanguageId == lng.Id).Name : "Not found");
+
+                        itemTranslations.TryAdd(
+                            item.Id,
+                            inner);
+                    }
+
+                    foreach (var translation in itemTranslations)
+                    {
+                        translations.TryAdd(translation.Key, translation.Value);
+                    }
+
+                    await SaveAsync(translations, destinationFolder + "/" + lng.Alpha2Code + ".json");
                 });
             }
             catch (System.Exception ex)
@@ -57,7 +84,7 @@ namespace Albergue.Administrator.Services
             }
         }
 
-        private Task SaveAsync(Dictionary<string,string> input, string path)
+        private Task SaveAsync(Dictionary<string,object> input, string path)
         {
             try
             {
@@ -66,7 +93,7 @@ namespace Albergue.Administrator.Services
 
                 using (StreamWriter sw = new StreamWriter(path))
                 {
-                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    using (JsonWriter writer = new JsonTextWriter(sw) { Formatting = Formatting.Indented })
                     {
                         serializer.Serialize(writer, input);
                     }

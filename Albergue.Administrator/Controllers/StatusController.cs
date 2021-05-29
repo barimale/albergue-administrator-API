@@ -40,7 +40,7 @@ namespace Albergue.Administrator.Controllers
 
                 return Ok(new ShopStatus {
                     isAtLeastOneCategoryDefined = allOfThem.ToList().Any(p => p.Active)
-                });;
+                });
             }
             catch (Exception ex)
             {

@@ -15,10 +15,10 @@ namespace Albergue.Administrator.Repository.Database.Configuration
                 .ValueGeneratedOnAdd();
 
             builder.HasData(
-                new LanguageBaseEntry { Id = Guid.NewGuid().ToString(), Alpha2Code = "EN" },
-                new LanguageBaseEntry { Id = Guid.NewGuid().ToString(), Alpha2Code = "NL" },
-                new LanguageBaseEntry { Id = Guid.NewGuid().ToString(), Alpha2Code = "PT" },
-                new LanguageBaseEntry { Id = Guid.NewGuid().ToString(), Alpha2Code = "DE" }
+                new LanguageBaseEntry { Id = Guid.NewGuid().ToString(), Alpha2Code = "EN", Default = true },
+                new LanguageBaseEntry { Id = Guid.NewGuid().ToString(), Alpha2Code = "NL", Default = true },
+                new LanguageBaseEntry { Id = Guid.NewGuid().ToString(), Alpha2Code = "PT", Default = true },
+                new LanguageBaseEntry { Id = Guid.NewGuid().ToString(), Alpha2Code = "DE", Default = true }
             );
         }
     }

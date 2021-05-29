@@ -28,8 +28,9 @@ namespace Albergue.Administrator.Mappings
             CreateMap<Image, Image>();
 
             //CreateMap<Category, KeyedCategory>().ForMember(p => p.Name,
-            //    opt => opt.MapFrom((src, dest, destMember, context) => {
-            //    var found = src.TranslatableDetails.FirstOrDefault(prop => prop.)
+            //    opt => opt.MapFrom((src, dest, destMember, context) =>
+            //    {
+            //        var found = src.TranslatableDetails.FirstOrDefault(prop => prop.)
             //})
         }
     }

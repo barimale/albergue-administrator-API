@@ -116,7 +116,32 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             return null;
         }
 
-        public async Task<ShopItem[]> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<ShopItem[]> GetAllAsync(CancellationToken? cancellationToken)
+        {
+            try
+            {
+                cancellationToken?.ThrowIfCancellationRequested();
+
+                var allOfThem = await _context
+                    .ShopItems
+                    .Include(p => p.Images)
+                    .Include(p => p.TranslatableDetails)
+                    .ThenInclude(pp => pp.Language)
+                    .ToArrayAsync(cancellationToken?? default);
+
+                var mapped = allOfThem.Select(p => _mapper.Map<ShopItem>(p));
+
+                return mapped.ToArray();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+
+            return null;
+        }
+
+        public async Task<ShopItem[]> GetByCategoryIdAsync(string categoryId, CancellationToken cancellationToken)
         {
             try
             {
@@ -127,6 +152,8 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
                     .Include(p => p.Images)
                     .Include(p => p.TranslatableDetails)
                     .ThenInclude(pp => pp.Language)
+                    .AsQueryable()
+                    .Where(p => p.CategoryId == categoryId)
                     .ToArrayAsync(cancellationToken);
 
                 var mapped = allOfThem.Select(p => _mapper.Map<ShopItem>(p));

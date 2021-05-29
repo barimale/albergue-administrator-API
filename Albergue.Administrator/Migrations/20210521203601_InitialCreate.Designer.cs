@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Albergue.Administrator.Migrations
 {
     [DbContext(typeof(AdministrationConsoleDbContext))]
-    [Migration("20210521090440_InitialCreate")]
+    [Migration("20210521203601_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,6 +88,9 @@ namespace Albergue.Administrator.Migrations
                     b.Property<string>("CategoryTranslatableDetailsEntryId")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Default")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ShopItemTranslatableDetailsEntryId")
                         .HasColumnType("TEXT");
 
@@ -102,23 +105,27 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "54342071-c8be-4023-b828-bf6c664a6c4d",
-                            Alpha2Code = "EN"
+                            Id = "40c2a201-7aaa-4030-9d42-fd96b53642c2",
+                            Alpha2Code = "EN",
+                            Default = true
                         },
                         new
                         {
-                            Id = "cc2cdd26-7b9a-4446-a0a1-dc1229df8bcc",
-                            Alpha2Code = "NL"
+                            Id = "007bc798-2f00-4ea4-913c-eed023d8fb6b",
+                            Alpha2Code = "NL",
+                            Default = true
                         },
                         new
                         {
-                            Id = "4c11f1c9-97b1-4e2c-af72-afdf92c4dd22",
-                            Alpha2Code = "PT"
+                            Id = "cd080995-eb33-472c-8029-f3a8f9455f92",
+                            Alpha2Code = "PT",
+                            Default = true
                         },
                         new
                         {
-                            Id = "f361ae5c-7383-4457-88ed-45d4bf7b9872",
-                            Alpha2Code = "DE"
+                            Id = "b0ed2fb1-a354-4aaa-97ba-67ad7435982d",
+                            Alpha2Code = "DE",
+                            Default = true
                         });
                 });
 
@@ -318,15 +325,15 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "62db4e91-74d7-4aec-9c0c-ad5fbaf82871",
+                            Id = "98a246b2-3628-4975-82c8-19c75b76345a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4fdde050-78aa-4cbe-a690-710c155b59ea",
+                            ConcurrencyStamp = "c68f8935-a45f-410a-b30a-6134a08b8e63",
                             Email = "mateusz.wolnica@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJVg6rKncsgrZvwy44I1xUt9Q6zrCGtUVuS6HrBeYLmx2UfP47hY6wS+F1AZF+PciQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK9mA4tqDiwHmlt6V6ABUClaU1hHFQQdXmoCczlu9ZXhb2qcS1PtoynrHLmqUVhWrw==",
                             PhoneNumber = "0048665337563",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",

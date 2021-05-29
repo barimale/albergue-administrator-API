@@ -59,6 +59,11 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
                     .Languages
                     .FirstOrDefaultAsync(p => p.Id == id, cancellationToken?? default);
 
+                if(toBeDeleted.Default)
+                {
+                    throw new Exception("Languages defined by default cannot be removed.");
+                }
+
                 var deleted = _context.Languages.Remove(toBeDeleted);
 
                 return await _context.SaveChangesAsync(cancellationToken?? default);

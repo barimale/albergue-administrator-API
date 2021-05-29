@@ -252,6 +252,7 @@ namespace Albergue.Administrator.Migrations
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     Alpha2Code = table.Column<string>(type: "TEXT", nullable: true),
+                    Default = table.Column<bool>(type: "INTEGER", nullable: false),
                     CategoryTranslatableDetailsEntryId = table.Column<string>(type: "TEXT", nullable: true),
                     ShopItemTranslatableDetailsEntryId = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -308,27 +309,27 @@ namespace Albergue.Administrator.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "62db4e91-74d7-4aec-9c0c-ad5fbaf82871", 0, "4fdde050-78aa-4cbe-a690-710c155b59ea", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEJVg6rKncsgrZvwy44I1xUt9Q6zrCGtUVuS6HrBeYLmx2UfP47hY6wS+F1AZF+PciQ==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
+                values: new object[] { "98a246b2-3628-4975-82c8-19c75b76345a", 0, "c68f8935-a45f-410a-b30a-6134a08b8e63", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEK9mA4tqDiwHmlt6V6ABUClaU1hHFQQdXmoCczlu9ZXhb2qcS1PtoynrHLmqUVhWrw==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Languages",
-                columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "54342071-c8be-4023-b828-bf6c664a6c4d", "EN", null, null });
+                columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "Default", "ShopItemTranslatableDetailsEntryId" },
+                values: new object[] { "40c2a201-7aaa-4030-9d42-fd96b53642c2", "EN", null, true, null });
 
             migrationBuilder.InsertData(
                 table: "Languages",
-                columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "cc2cdd26-7b9a-4446-a0a1-dc1229df8bcc", "NL", null, null });
+                columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "Default", "ShopItemTranslatableDetailsEntryId" },
+                values: new object[] { "007bc798-2f00-4ea4-913c-eed023d8fb6b", "NL", null, true, null });
 
             migrationBuilder.InsertData(
                 table: "Languages",
-                columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "4c11f1c9-97b1-4e2c-af72-afdf92c4dd22", "PT", null, null });
+                columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "Default", "ShopItemTranslatableDetailsEntryId" },
+                values: new object[] { "cd080995-eb33-472c-8029-f3a8f9455f92", "PT", null, true, null });
 
             migrationBuilder.InsertData(
                 table: "Languages",
-                columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "ShopItemTranslatableDetailsEntryId" },
-                values: new object[] { "f361ae5c-7383-4457-88ed-45d4bf7b9872", "DE", null, null });
+                columns: new[] { "Id", "Alpha2Code", "CategoryTranslatableDetailsEntryId", "Default", "ShopItemTranslatableDetailsEntryId" },
+                values: new object[] { "b0ed2fb1-a354-4aaa-97ba-67ad7435982d", "DE", null, true, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
