@@ -8,6 +8,7 @@ using PubSub;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Albergue.Administrator.Controllers
 {
@@ -87,6 +88,26 @@ namespace Albergue.Administrator.Controllers
                 var allOfThem = await _repository.GetAllAsync(cancellationToken);
 
                 return Ok(allOfThem);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return StatusCode(400);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string[]))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> GetAllSupportedAlphaCodesAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var allOfThem = await _repository.GetAllAsync(cancellationToken);
+
+                return Ok(allOfThem.Select(p => p.Alpha2Code).ToArray());
             }
             catch (Exception ex)
             {
