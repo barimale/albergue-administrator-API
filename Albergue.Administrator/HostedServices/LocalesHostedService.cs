@@ -1,6 +1,7 @@
 ﻿using Albergue.Administrator.HostedServices.Hub;
 using Albergue.Administrator.Model;
 using Albergue.Administrator.Services;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -16,19 +17,20 @@ namespace Albergue.Administrator.HostedServices
         private readonly IImageExtractor _extractor;
         private readonly ILogger<LocalesHostedService> _logger;
         private readonly PubSub.Hub _hub;
-        private readonly LocalesStatusHub _broadcastLocalesStatus;
+        private readonly IHubContext<LocalesStatusHub, ILocalesStatusHub> _broadcastLocalesStatus;
 
         public LocalesHostedService()
         {
             _hub = PubSub.Hub.Default;
-            _broadcastLocalesStatus = new LocalesStatusHub();
         }
 
         public LocalesHostedService(
             ILogger<LocalesHostedService> logger,
-            IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider,
+            IHubContext<LocalesStatusHub, ILocalesStatusHub> broadcastLocalesStatus)
             : this()
         {
+            _broadcastLocalesStatus = broadcastLocalesStatus;
             _logger = logger;
             _extractor = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IImageExtractor>();
             _localesGenerator = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ILocalesGenerator>();
@@ -63,12 +65,14 @@ namespace Albergue.Administrator.HostedServices
 
         private async Task DoWorkAsync()
         {
+            var id = Guid.NewGuid().ToString();
+
             try
             {
                 _logger.LogInformation(
                     "Locales creation in progress. ");
 
-                _broadcastLocalesStatus.SendMessageAsync("Start");
+                await _broadcastLocalesStatus.Clients.All.OnStartAsync(id);
 
                 await Task.WhenAll(
                     Task.Run(async () =>
@@ -91,7 +95,7 @@ namespace Albergue.Administrator.HostedServices
             }
             finally
             {
-                _broadcastLocalesStatus.SendMessageAsync("Stop");
+                await _broadcastLocalesStatus.Clients.All.OnFinishAsync(id);
             }
         }
 

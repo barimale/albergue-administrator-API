@@ -4,8 +4,7 @@ namespace Albergue.Administrator.HostedServices.Hub
 {
     public interface ILocalesStatusHub
     {
-        Task SendMessageAsync(string message);
-        Task SendMessageToCallerAsync(string message);
-        Task SendMessageToGroupAsync(string groupName, string message);
+        Task OnStartAsync(string id);
+        Task OnFinishAsync(string id);
     }
 }

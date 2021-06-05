@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Albergue.Administrator.HostedServices.Hub
 {
     [Authorize]
-    public class LocalesStatusHub : Microsoft.AspNetCore.SignalR.Hub
+    public class LocalesStatusHub : Microsoft.AspNetCore.SignalR.Hub<ILocalesStatusHub>
     {
         public override Task OnConnectedAsync()
         {
@@ -21,19 +21,14 @@ namespace Albergue.Administrator.HostedServices.Hub
             return base.OnDisconnectedAsync(exception);
         }
 
-        public Task SendMessageAsync(string message)
+        public Task OnStartAsync(string id)
         {
-            return Clients?.All?.SendCoreAsync("ReceiveMessage", new object[] { message });
+            return Clients?.All?.OnStartAsync(id);
         }
 
-        public Task SendMessageToCallerAsync(string message)
+        public Task OnFinishAsync(string id)
         {
-            return Clients?.Caller?.SendCoreAsync("ReceiveMessage", new object[] { message });
-        }
-
-        public Task SendMessageToGroupAsync(string groupName, string message)
-        {
-            return Clients?.Group(groupName)?.SendCoreAsync("ReceiveMessage", new object[] { message });
+            return Clients?.All?.OnFinishAsync(id);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Albergue.Administrator
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddSingleton<LocalesStatusHub>();
+            //services.AddSingleton<ILocalesStatusHub, LocalesStatusHub>();
             services.AddScoped<IImageExtractor, ImageExtractor>();
             services.AddScoped<ILocalesGenerator, LocalesGenerator>();
             services.AddScoped<IAuthorizeService, AuthorizeService>();
