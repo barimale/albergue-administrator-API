@@ -1,9 +1,9 @@
-﻿using Albergue.Administrator.Model;
+﻿using Albergue.Administrator.HostedServices.Hub;
+using Albergue.Administrator.Model;
 using Albergue.Administrator.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using PubSub;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,11 +15,13 @@ namespace Albergue.Administrator.HostedServices
         private readonly ILocalesGenerator _localesGenerator;
         private readonly IImageExtractor _extractor;
         private readonly ILogger<LocalesHostedService> _logger;
-        private readonly Hub _hub;
+        private readonly PubSub.Hub _hub;
+        private readonly LocalesStatusHub _broadcastLocalesStatus;
 
         public LocalesHostedService()
         {
-            _hub = Hub.Default;
+            _hub = PubSub.Hub.Default;
+            _broadcastLocalesStatus = new LocalesStatusHub();
         }
 
         public LocalesHostedService(
@@ -66,6 +68,8 @@ namespace Albergue.Administrator.HostedServices
                 _logger.LogInformation(
                     "Locales creation in progress. ");
 
+                _broadcastLocalesStatus.SendMessageAsync("Start");
+
                 await Task.WhenAll(
                     Task.Run(async () =>
                     {
@@ -84,6 +88,10 @@ namespace Albergue.Administrator.HostedServices
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
+            }
+            finally
+            {
+                _broadcastLocalesStatus.SendMessageAsync("Stop");
             }
         }
 

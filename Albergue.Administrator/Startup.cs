@@ -13,9 +13,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Albergue.Administrator.HostedServices.Hub;
 
 namespace Albergue.Administrator
 {
@@ -30,6 +32,7 @@ namespace Albergue.Administrator
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddSingleton<LocalesStatusHub>();
             services.AddScoped<IImageExtractor, ImageExtractor>();
             services.AddScoped<ILocalesGenerator, LocalesGenerator>();
             services.AddScoped<IAuthorizeService, AuthorizeService>();
@@ -71,6 +74,8 @@ namespace Albergue.Administrator
                     ValidateIssuerSigningKey = false
                 };
             });
+
+            services.AddSignalR();
 
             services.AddControllers();
 
@@ -117,6 +122,7 @@ namespace Albergue.Administrator
                 p.AllowAnyOrigin();
                 p.AllowAnyHeader();
                 p.AllowAnyMethod();
+                //p.WithOrigins("http://localhost:3008").AllowCredentials();
             });
 
             app.UseAuthentication();
@@ -130,6 +136,7 @@ namespace Albergue.Administrator
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<LocalesStatusHub>("/localesHub");
             });
         }
     }
