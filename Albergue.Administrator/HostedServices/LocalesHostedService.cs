@@ -74,6 +74,8 @@ namespace Albergue.Administrator.HostedServices
 
                 await _broadcastLocalesStatus.Clients.All.OnStartAsync(id);
 
+                await Task.Delay(3000);
+
                 await Task.WhenAll(
                     Task.Run(async () =>
                     {
