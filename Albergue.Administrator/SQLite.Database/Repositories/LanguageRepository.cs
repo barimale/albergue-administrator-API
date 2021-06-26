@@ -55,6 +55,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             {
                 cancellationToken?.ThrowIfCancellationRequested();
 
+                //WIP: remove all mappings for the language
                 var toBeDeleted = await _context
                     .Languages
                     .FirstOrDefaultAsync(p => p.Id == id, cancellationToken?? default);

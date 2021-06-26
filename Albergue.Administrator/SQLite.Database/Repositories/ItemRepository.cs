@@ -53,7 +53,27 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
 
                 var mapped = _mapper.Map<ShopItemEntry>(item);
 
-                var result = _context.ShopItems.Update(mapped);
+                var found = await _context
+                    .ShopItems
+                    .Include(p => p.Images)
+                    .Include(p => p.TranslatableDetails)
+                    .ThenInclude(pp => pp.Language)
+                    .AsQueryable()
+                    .FirstOrDefaultAsync(p => p.Id == item.Id, cancellationToken);
+
+                found.Images.Clear();
+                found.TranslatableDetails.Clear();
+
+                found.Images = mapped.Images;
+                found.TranslatableDetails = mapped.TranslatableDetails;
+                found.Price = mapped.Price;
+                found.CategoryId = mapped.CategoryId;
+                found.Active = mapped.Active;
+
+                await _context.SaveChangesAsync(cancellationToken);
+
+                var result = _context
+                    .Update<ShopItemEntry>(found);
 
                 await _context.SaveChangesAsync(cancellationToken);
 

@@ -57,7 +57,20 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
 
                 var mapped = _mapper.Map<CategoryEntry>(item);
 
-                var result = _context.Categories.Update(mapped);
+                var found = await _context
+                   .Categories
+                   .Include(p => p.TranslatableDetails)
+                   .ThenInclude(pp => pp.Language)
+                   .AsQueryable()
+                   .FirstOrDefaultAsync(p => p.Id == item.Id, cancellationToken);
+
+                found.TranslatableDetails.Clear();
+                found.TranslatableDetails = mapped.TranslatableDetails;
+                found.KeyName = mapped.KeyName;
+
+                await _context.SaveChangesAsync(cancellationToken);
+
+                var result = _context.Update<CategoryEntry>(found);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
