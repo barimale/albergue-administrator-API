@@ -16,7 +16,7 @@ namespace Albergue.Administrator.Repository
         }
 
         public DbSet<ShopItemEntry> ShopItems { get; set; }
-        public DbSet<ShopItemEntry> ShopItemsTranslationDetails { get; set; }
+        public DbSet<ShopItemTranslatableDetailsEntry> ShopItemsTranslationDetails { get; set; }
         public DbSet<CategoryEntry> Categories { get; set; }
         public DbSet<CategoryTranslatableDetailsEntry> CategoriesTranslationDetails { get; set; }
         public DbSet<LanguageBaseEntry> Languages { get; set; }

@@ -93,25 +93,25 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "df140ee7-bf3a-4826-8f4c-e8307bbff810",
+                            Id = "586bc5b8-f431-4fbf-9b57-c1d8e91cb6e5",
                             Alpha2Code = "EN",
                             Default = true
                         },
                         new
                         {
-                            Id = "f6e83a65-da88-47a2-8bff-9f7d117a2f51",
+                            Id = "4c78b1ff-733c-4fb1-aa66-a47b791a773c",
                             Alpha2Code = "NL",
                             Default = true
                         },
                         new
                         {
-                            Id = "1aba205b-8221-43d6-af33-4ee492198e12",
+                            Id = "c172d979-ae2e-4f3a-94c2-e0b2a4e267e9",
                             Alpha2Code = "PT",
                             Default = true
                         },
                         new
                         {
-                            Id = "bd7ffebf-dd9e-4448-a489-581854ad429f",
+                            Id = "5135cd1e-0a97-494b-9fdf-451e3eb7df08",
                             Alpha2Code = "DE",
                             Default = true
                         });
@@ -167,7 +167,7 @@ namespace Albergue.Administrator.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("ShopItemEntry");
+                    b.ToTable("ShopItems");
                 });
 
             modelBuilder.Entity("Albergue.Administrator.Entities.ShopItemTranslatableDetailsEntry", b =>
@@ -195,7 +195,7 @@ namespace Albergue.Administrator.Migrations
 
                     b.HasIndex("ShopItemId");
 
-                    b.ToTable("ShopItemTranslatableDetailsEntry");
+                    b.ToTable("ShopItemsTranslationDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -313,15 +313,15 @@ namespace Albergue.Administrator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "90180fb4-c64f-4473-8049-aaa6d9cad94c",
+                            Id = "a382d914-38f0-40c9-81ef-2ae9575df909",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cbf1873b-9993-4a0c-903e-8ca1e8656243",
+                            ConcurrencyStamp = "1feb42fb-b578-45e7-9788-349da16114af",
                             Email = "mateusz.wolnica@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHhCigmKZ+BSnCU/gexkci3bitScNMOaQ4XVyQ4EfnefFxJgnNjP8PhDAnjmpS+4OQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHMFdkh1xIQpaU3VLmbWeVgCChO9MRwWD8RVHKb/qaunyiMHzYzx0h/W4epgciSZtg==",
                             PhoneNumber = "0048665337563",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",

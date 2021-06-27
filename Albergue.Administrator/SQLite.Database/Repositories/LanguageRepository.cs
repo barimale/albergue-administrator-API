@@ -65,7 +65,23 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
                     throw new Exception("Languages defined by default cannot be removed.");
                 }
 
-                var deleted = _context.Languages.Remove(toBeDeleted);
+                var allCategoryRelated = await _context
+                    .CategoriesTranslationDetails
+                    .AsQueryable()
+                    .Where(p => p.LanguageId == id)
+                    .ToListAsync();
+
+                _context.CategoriesTranslationDetails.RemoveRange(allCategoryRelated);
+
+                var allItemRelated = await _context
+                    .ShopItemsTranslationDetails
+                    .AsQueryable()
+                    .Where(p => p.LanguageId == id)
+                    .ToListAsync();
+
+                _context.ShopItemsTranslationDetails.RemoveRange(allItemRelated);
+
+               _context.Languages.Remove(toBeDeleted);
 
                 return await _context.SaveChangesAsync(cancellationToken?? default);
             }

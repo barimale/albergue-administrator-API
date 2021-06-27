@@ -198,7 +198,7 @@ namespace Albergue.Administrator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShopItemEntry",
+                name: "ShopItems",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
@@ -208,9 +208,9 @@ namespace Albergue.Administrator.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShopItemEntry", x => x.Id);
+                    table.PrimaryKey("PK_ShopItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShopItemEntry_Categories_CategoryId",
+                        name: "FK_ShopItems_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
@@ -230,15 +230,15 @@ namespace Albergue.Administrator.Migrations
                 {
                     table.PrimaryKey("PK_Images", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Images_ShopItemEntry_ShopItemId",
+                        name: "FK_Images_ShopItems_ShopItemId",
                         column: x => x.ShopItemId,
-                        principalTable: "ShopItemEntry",
+                        principalTable: "ShopItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShopItemTranslatableDetailsEntry",
+                name: "ShopItemsTranslationDetails",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
@@ -250,11 +250,11 @@ namespace Albergue.Administrator.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShopItemTranslatableDetailsEntry", x => x.Id);
+                    table.PrimaryKey("PK_ShopItemsTranslationDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShopItemTranslatableDetailsEntry_ShopItemEntry_ShopItemId",
+                        name: "FK_ShopItemsTranslationDetails_ShopItems_ShopItemId",
                         column: x => x.ShopItemId,
-                        principalTable: "ShopItemEntry",
+                        principalTable: "ShopItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -285,9 +285,9 @@ namespace Albergue.Administrator.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_LanguageMaps_ShopItemTranslatableDetailsEntry_ShopItemTranslatableDetailsEntryId",
+                        name: "FK_LanguageMaps_ShopItemsTranslationDetails_ShopItemTranslatableDetailsEntryId",
                         column: x => x.ShopItemTranslatableDetailsEntryId,
-                        principalTable: "ShopItemTranslatableDetailsEntry",
+                        principalTable: "ShopItemsTranslationDetails",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -295,27 +295,27 @@ namespace Albergue.Administrator.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "90180fb4-c64f-4473-8049-aaa6d9cad94c", 0, "cbf1873b-9993-4a0c-903e-8ca1e8656243", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEHhCigmKZ+BSnCU/gexkci3bitScNMOaQ4XVyQ4EfnefFxJgnNjP8PhDAnjmpS+4OQ==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
+                values: new object[] { "a382d914-38f0-40c9-81ef-2ae9575df909", 0, "1feb42fb-b578-45e7-9788-349da16114af", "mateusz.wolnica@gmail.com", true, false, null, "MATEUSZ.WOLNICA@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEHMFdkh1xIQpaU3VLmbWeVgCChO9MRwWD8RVHKb/qaunyiMHzYzx0h/W4epgciSZtg==", "0048665337563", true, "00000000-0000-0000-0000-000000000000", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "Default" },
-                values: new object[] { "df140ee7-bf3a-4826-8f4c-e8307bbff810", "EN", true });
+                values: new object[] { "586bc5b8-f431-4fbf-9b57-c1d8e91cb6e5", "EN", true });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "Default" },
-                values: new object[] { "f6e83a65-da88-47a2-8bff-9f7d117a2f51", "NL", true });
+                values: new object[] { "4c78b1ff-733c-4fb1-aa66-a47b791a773c", "NL", true });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "Default" },
-                values: new object[] { "1aba205b-8221-43d6-af33-4ee492198e12", "PT", true });
+                values: new object[] { "c172d979-ae2e-4f3a-94c2-e0b2a4e267e9", "PT", true });
 
             migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Alpha2Code", "Default" },
-                values: new object[] { "bd7ffebf-dd9e-4448-a489-581854ad429f", "DE", true });
+                values: new object[] { "5135cd1e-0a97-494b-9fdf-451e3eb7df08", "DE", true });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -382,13 +382,13 @@ namespace Albergue.Administrator.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShopItemEntry_CategoryId",
-                table: "ShopItemEntry",
+                name: "IX_ShopItems_CategoryId",
+                table: "ShopItems",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShopItemTranslatableDetailsEntry_ShopItemId",
-                table: "ShopItemTranslatableDetailsEntry",
+                name: "IX_ShopItemsTranslationDetails_ShopItemId",
+                table: "ShopItemsTranslationDetails",
                 column: "ShopItemId");
         }
 
@@ -428,10 +428,10 @@ namespace Albergue.Administrator.Migrations
                 name: "Languages");
 
             migrationBuilder.DropTable(
-                name: "ShopItemTranslatableDetailsEntry");
+                name: "ShopItemsTranslationDetails");
 
             migrationBuilder.DropTable(
-                name: "ShopItemEntry");
+                name: "ShopItems");
 
             migrationBuilder.DropTable(
                 name: "Categories");
