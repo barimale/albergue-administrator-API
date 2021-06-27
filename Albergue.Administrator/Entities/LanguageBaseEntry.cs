@@ -10,11 +10,5 @@ namespace Albergue.Administrator.Entities
         public string Id { get; set; }
         public string Alpha2Code { get; set; }
         public bool Default { get; set; }
-
-        public string CategoryTranslatableDetailsEntryId { get; set; }
-        public CategoryTranslatableDetailsEntry CategoryTranslatableDetailsEntry { get; set; }
-
-        public string ShopItemTranslatableDetailsEntryId { get; set; }
-        public ShopItemTranslatableDetailsEntry ShopItemTranslatableDetailsEntry { get; set; }
     }
 }
