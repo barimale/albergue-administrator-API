@@ -56,7 +56,6 @@ namespace Albergue.Administrator
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(config =>
             {
                 config.RequireHttpsMetadata = false;
