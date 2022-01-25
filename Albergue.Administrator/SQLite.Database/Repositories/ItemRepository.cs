@@ -1,13 +1,13 @@
-﻿using Albergue.Administrator.Entities;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Albergue.Administrator.Entities;
 using Albergue.Administrator.Model;
 using Albergue.Administrator.Repository;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Albergue.Administrator.SQLite.Database.Repositories
 {
@@ -96,7 +96,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
                     .ShopItems
                     .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
-                var deleted = _context.ShopItems.Remove(toBeDeleted);
+                _ = _context.ShopItems.Remove(toBeDeleted);
 
                 return await _context.SaveChangesAsync(cancellationToken);
             }
@@ -136,7 +136,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             return null;
         }
 
-        public async Task<ShopItem[]> GetAllAsync(CancellationToken? cancellationToken)
+        public async Task<ShopItem[]> GetAllAsync(CancellationToken? cancellationToken = default)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
                     .Include(p => p.Images)
                     .Include(p => p.TranslatableDetails)
                     .ThenInclude(pp => pp.Language)
-                    .ToArrayAsync(cancellationToken?? default);
+                    .ToArrayAsync(cancellationToken ?? default);
 
                 var mapped = allOfThem.Select(p => _mapper.Map<ShopItem>(p));
 

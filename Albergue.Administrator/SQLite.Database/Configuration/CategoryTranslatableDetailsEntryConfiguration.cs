@@ -22,7 +22,6 @@ namespace Albergue.Administrator.Repository.Database.Configuration
                .HasOne(p => p.Language)
                .WithOne(pp => pp.CategoryTranslatableDetailsEntry)
                .HasForeignKey<LanguageMapEntry>(ppp => ppp.CategoryTranslatableDetailsEntryId);
-               //.OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

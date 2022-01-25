@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Albergue.Administrator.HostedServices.Hub
 {
@@ -9,14 +9,14 @@ namespace Albergue.Administrator.HostedServices.Hub
     {
         public override Task OnConnectedAsync()
         {
-            Console.WriteLine(base.Context.ConnectionId + " is connected");
+            Console.WriteLine(Context.ConnectionId + " is connected");
 
             return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {
-            Console.WriteLine(base.Context.ConnectionId + " is disconnected");
+            Console.WriteLine(Context.ConnectionId + " is disconnected");
 
             return base.OnDisconnectedAsync(exception);
         }

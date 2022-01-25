@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Albergue.Administrator.HostedServices;
+using Albergue.Administrator.HostedServices.Hub;
 using Albergue.Administrator.Repository;
 using Albergue.Administrator.Services;
 using Albergue.Administrator.SQLite.Database.Repositories;
@@ -13,11 +17,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.SignalR;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Albergue.Administrator.HostedServices.Hub;
 
 namespace Albergue.Administrator
 {
@@ -64,7 +63,6 @@ namespace Albergue.Administrator
                 config.SaveToken = true;
                 config.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    //TODO: false to true invetigate twhat needs to be corrected
                     IssuerSigningKey = signingKey,
                     ValidateAudience = false,
                     ValidAudience = Configuration["Tokens:Audience"],
@@ -92,7 +90,9 @@ namespace Albergue.Administrator
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    {new OpenApiSecurityScheme{Reference = new OpenApiReference
+                    { new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
                     {
                         Id = "Bearer",
                         Type = ReferenceType.SecurityScheme

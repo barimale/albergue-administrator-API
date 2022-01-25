@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace Albergue.Administrator.Repository.Database.Configuration
 {
@@ -20,7 +20,7 @@ namespace Albergue.Administrator.Repository.Database.Configuration
                 NormalizedEmail = "MATEUSZ.WOLNICA@GMAIL.COM",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
-                SecurityStamp = new Guid().ToString("D")
+                SecurityStamp = default(Guid).ToString("D")
             };
 
             var passwordHasher = new PasswordHasher<IdentityUser>();

@@ -1,6 +1,5 @@
 ﻿using Albergue.Administrator.Model;
 using Albergue.Administrator.SQLite.Database.Repositories;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,10 +35,11 @@ namespace Albergue.Administrator.Controllers
             try
             {
                 var allOfThem = await _repository.GetAllAsync(cancellationToken);
-                
 
-                return Ok(new ShopStatus {
-                    isAtLeastOneCategoryDefined = allOfThem.ToList().Any(p => p.Active)
+
+                return Ok(new ShopStatus
+                {
+                    IsAtLeastOneCategoryDefined = allOfThem.ToList().Any(p => p.Active)
                 });
             }
             catch (Exception ex)

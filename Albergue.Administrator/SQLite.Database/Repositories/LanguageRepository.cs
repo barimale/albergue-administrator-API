@@ -1,13 +1,13 @@
-﻿using Albergue.Administrator.Entities;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Albergue.Administrator.Entities;
 using Albergue.Administrator.Model;
 using Albergue.Administrator.Repository;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Albergue.Administrator.SQLite.Database.Repositories
 {
@@ -55,12 +55,11 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             {
                 cancellationToken?.ThrowIfCancellationRequested();
 
-                //WIP: remove all mappings for the language
                 var toBeDeleted = await _context
                     .Languages
-                    .FirstOrDefaultAsync(p => p.Id == id, cancellationToken?? default);
+                    .FirstOrDefaultAsync(p => p.Id == id, cancellationToken ?? default);
 
-                if(toBeDeleted.Default)
+                if (toBeDeleted.Default)
                 {
                     throw new Exception("Languages defined by default cannot be removed.");
                 }
@@ -81,9 +80,9 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
 
                 _context.ShopItemsTranslationDetails.RemoveRange(allItemRelated);
 
-               _context.Languages.Remove(toBeDeleted);
+                _context.Languages.Remove(toBeDeleted);
 
-                return await _context.SaveChangesAsync(cancellationToken?? default);
+                return await _context.SaveChangesAsync(cancellationToken ?? default);
             }
             catch (Exception ex)
             {
@@ -92,7 +91,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             }
         }
 
-        public async Task<Language[]> GetAllAsync(CancellationToken? cancellationToken)
+        public async Task<Language[]> GetAllAsync(CancellationToken? cancellationToken = default)
         {
             try
             {

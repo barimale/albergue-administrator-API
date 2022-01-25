@@ -1,13 +1,13 @@
-﻿using Albergue.Administrator.HostedServices.Hub;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Albergue.Administrator.HostedServices.Hub;
 using Albergue.Administrator.Model;
 using Albergue.Administrator.Services;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Albergue.Administrator.HostedServices
 {
@@ -36,7 +36,7 @@ namespace Albergue.Administrator.HostedServices
             _localesGenerator = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ILocalesGenerator>();
         }
 
-        public Task StartAsync(CancellationToken stoppingToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Locales Hosted Service running.");
 
@@ -87,7 +87,6 @@ namespace Albergue.Administrator.HostedServices
                     })
                 );
 
-
                 _logger.LogInformation(
                     "Locales creation is finished. ");
             }
@@ -101,7 +100,7 @@ namespace Albergue.Administrator.HostedServices
             }
         }
 
-        public Task StopAsync(CancellationToken stoppingToken)
+        public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Locales Hosted Service is stopping.");
 

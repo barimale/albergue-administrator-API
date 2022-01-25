@@ -2,6 +2,6 @@
 {
     public class ShopStatus
     {
-        public bool isAtLeastOneCategoryDefined { get; set; }
+        public bool IsAtLeastOneCategoryDefined { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Albergue.Administrator.Entities;
-using Albergue.Administrator.Model;
 using Albergue.Administrator.Repository.Database.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -12,7 +11,7 @@ namespace Albergue.Administrator.Repository
         public AdministrationConsoleDbContext(DbContextOptions<AdministrationConsoleDbContext> options)
         : base(options)
         {
-            //intentionally left blank
+            // intentionally left blank
         }
 
         public DbSet<ShopItemEntry> ShopItems { get; set; }
@@ -35,8 +34,6 @@ namespace Albergue.Administrator.Repository
             modelBuilder.ApplyConfiguration(new IdentityUserEntryConfiguration());
             modelBuilder.ApplyConfiguration(new ShopItemEntryConfiguration());
             modelBuilder.ApplyConfiguration(new ShopItemTranslatableDetailsEntryConfiguration());
-
-            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

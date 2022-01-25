@@ -1,13 +1,13 @@
-﻿using Albergue.Administrator.Entities;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Albergue.Administrator.Entities;
 using Albergue.Administrator.Model;
 using Albergue.Administrator.Repository;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Albergue.Administrator.SQLite.Database.Repositories
 {
@@ -93,7 +93,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
 
                 var found = await _context.Categories.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
-                var deleted = _context
+                _ = _context
                     .Categories
                     .Remove(found);
 
@@ -138,7 +138,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
             return null;
         }
 
-        public async Task<Category[]> GetAllAsync(CancellationToken? cancellationToken)
+        public async Task<Category[]> GetAllAsync(CancellationToken? cancellationToken = default)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace Albergue.Administrator.SQLite.Database.Repositories
                     .Categories
                     .Include(p => p.TranslatableDetails)
                     .ThenInclude(pp => pp.Language)
-                    .ToArrayAsync(cancellationToken?? default);
+                    .ToArrayAsync(cancellationToken ?? default);
 
                 var mapped = allOfThem.Select(p => _mapper.Map<Category>(p));
 

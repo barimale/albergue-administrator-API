@@ -14,7 +14,6 @@ namespace Albergue.Administrator.Model
         public double Price { get; set; }
         public bool Active { get; set; }
         public string CategoryId { get; set; }
-
         public List<Image> Images { get; set; }
         public List<ShopItemTranslatableDetails> TranslatableDetails { get; set; }
     }

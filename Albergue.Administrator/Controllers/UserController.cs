@@ -1,5 +1,4 @@
 ﻿using Albergue.Administrator.Model;
-using Albergue.Administrator.Repository;
 using Albergue.Administrator.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +20,7 @@ namespace Albergue.Administrator.Controllers
         private readonly UserManager<IdentityUser> _userManager;
 
         public UserController(
-            ILogger<UserController> logger, 
+            ILogger<UserController> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IAuthorizeService authorizeService)

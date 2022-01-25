@@ -6,8 +6,9 @@ namespace Albergue.Administrator.Services
     {
         public Task SaveLocallyAsync()
         {
-            //Current implmentation of the shop supports usage of images by API
-            //which means that extracting them to the disk is not necesarry.
+            // Current implmentation of the shop supports usage of images by API
+            // which means that extracting them to the disk is not necesarry.
+
             return Task.CompletedTask;
         }
     }

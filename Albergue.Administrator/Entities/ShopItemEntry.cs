@@ -10,7 +10,6 @@ namespace Albergue.Administrator.Entities
         public double Price { get; set; }
         public bool Active { get; set; }
         public List<ImageEntry> Images { get; set; }
-
         public List<ShopItemTranslatableDetailsEntry> TranslatableDetails { get; set; }
         public string CategoryId { get; set; }
         public CategoryEntry Category { get; set; }

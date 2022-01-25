@@ -1,11 +1,11 @@
-﻿using Albergue.Administrator.SQLite.Database.Repositories;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Albergue.Administrator.SQLite.Database.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace Albergue.Administrator.Services
 {
@@ -46,12 +46,12 @@ namespace Albergue.Administrator.Services
                 {
                     var translations = new Dictionary<string, object>();
                     var categoryTranslations = categories.Select(
-                        p => new KeyValuePair<string,object>(
+                        p => new KeyValuePair<string, object>(
                             p.KeyName,
                             p.TranslatableDetails.FirstOrDefault(pp => pp.LanguageId == lng.Id) != null ? p.TranslatableDetails.FirstOrDefault(pp => pp.LanguageId == lng.Id).Name : "Not found")
                     );
 
-                    foreach(var translation in categoryTranslations)
+                    foreach (var translation in categoryTranslations)
                     {
                         translations.TryAdd(translation.Key, translation.Value);
                     }
@@ -83,11 +83,10 @@ namespace Albergue.Administrator.Services
             }
         }
 
-        private Task SaveAsync(Dictionary<string,object> input, string path)
+        private Task SaveAsync(Dictionary<string, object> input, string path)
         {
             try
             {
-                string json = JsonConvert.SerializeObject(input, Formatting.Indented);
                 var serializer = new JsonSerializer();
 
                 using (StreamWriter sw = new StreamWriter(path))

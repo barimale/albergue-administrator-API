@@ -1,3 +1,12 @@
+# Format and lint
+```
+dotnet tool install -g dotnet-format
+```
+Usage:
+```
+dotnet-format ./Albergue.Administrator.csproj
+```
+
 # Mini-server configuration
 ```
 Public IP: 94.132.173.156

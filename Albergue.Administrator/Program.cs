@@ -1,11 +1,9 @@
-using Albergue.Administrator.HostedServices;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Albergue.Administrator
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
