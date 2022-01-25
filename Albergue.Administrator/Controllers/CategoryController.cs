@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Albergue.Administrator.Model;
+﻿using Albergue.Administrator.Model;
 using Albergue.Administrator.SQLite.Database.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PubSub;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Albergue.Administrator.Controllers
 {

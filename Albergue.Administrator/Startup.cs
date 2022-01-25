@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Albergue.Administrator.HostedServices;
 using Albergue.Administrator.HostedServices.Hub;
 using Albergue.Administrator.Repository;
@@ -17,6 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Albergue.Administrator
 {

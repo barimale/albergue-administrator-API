@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Albergue.Administrator.HostedServices.Hub;
+﻿using Albergue.Administrator.HostedServices.Hub;
 using Albergue.Administrator.Model;
 using Albergue.Administrator.Services;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Albergue.Administrator.HostedServices
 {

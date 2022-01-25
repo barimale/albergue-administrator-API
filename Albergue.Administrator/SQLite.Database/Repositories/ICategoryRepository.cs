@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using Albergue.Administrator.Model;
+using System.Threading;
 using System.Threading.Tasks;
-using Albergue.Administrator.Model;
 
 namespace Albergue.Administrator.SQLite.Database.Repositories
 {

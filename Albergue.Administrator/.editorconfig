@@ -9,6 +9,7 @@ csharp_style_var_elsewhere=true:silent
 
 # Using directive should appear within a namespace declaration
 dotnet_diagnostic.SA1200.severity = None
+dotnet_diagnostic.SA1208.severity = None
 
 # XML comment analysis is disabled due to project configuration
 dotnet_diagnostic.SA0001.severity = None

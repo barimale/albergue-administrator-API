@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Albergue.Administrator.HostedServices.Hub
 {

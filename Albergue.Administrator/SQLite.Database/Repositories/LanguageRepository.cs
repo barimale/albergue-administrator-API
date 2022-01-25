@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Albergue.Administrator.Entities;
+﻿using Albergue.Administrator.Entities;
 using Albergue.Administrator.Model;
 using Albergue.Administrator.Repository;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Albergue.Administrator.SQLite.Database.Repositories
 {
