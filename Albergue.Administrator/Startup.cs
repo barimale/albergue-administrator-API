@@ -124,7 +124,14 @@ namespace Albergue.Administrator
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AdministrationConsoleDbContext dbContext)
         {
-            dbContext.Database.Migrate();
+            try
+            {
+                dbContext.Database.Migrate();
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("On Migrate error");
+            }
 
             if (env.IsDevelopment())
             {
