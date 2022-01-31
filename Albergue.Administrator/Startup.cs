@@ -6,6 +6,7 @@ using Albergue.Administrator.SQLite.Database.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,8 @@ namespace Albergue.Administrator
 
         public IConfiguration Configuration { get; }
 
+        private string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<ILocalesStatusHub, LocalesStatusHub>();
@@ -42,7 +45,18 @@ namespace Albergue.Administrator
             services.AddTransient<ILanguageRepository, LanguageRepository>();
 
             services.AddAutoMapper(typeof(Startup));
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                                      builder =>
+                                      {
+                                          builder.WithOrigins("*",
+                                                              "http://localhost:3006")
+                                                              .AllowAnyHeader()
+                                                              .AllowAnyMethod();
+                                      });
+            });
+
 
             services.AddDbContext<AdministrationConsoleDbContext>(options =>
                 options
@@ -102,6 +116,8 @@ namespace Albergue.Administrator
             });
 
             services.AddHostedService<LocalesHostedService>();
+
+            services.AddDirectoryBrowser();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AdministrationConsoleDbContext dbContext)
@@ -117,23 +133,24 @@ namespace Albergue.Administrator
 
             app.UseRouting();
 
+            app.UseCors(MyAllowSpecificOrigins);
+
             var destinationFolder = Configuration.GetValue<string>("LocalesDir");
 
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
            Path.Combine(destinationFolder)),
-                RequestPath = "/externals"
+                RequestPath = "/locales"
+            });
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                  Path.Combine(destinationFolder)),
+                RequestPath = new PathString("/locales")
             });
             //app.UseHsts();
-
-            app.UseCors(p =>
-            {
-                p.AllowAnyOrigin();
-                p.AllowAnyHeader();
-                p.AllowAnyMethod();
-                //p.WithOrigins("http://localhost:3008").AllowCredentials();
-            });
 
             app.UseAuthentication();
             app.UseAuthorization();

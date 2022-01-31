@@ -36,9 +36,10 @@ namespace Albergue.Administrator.HostedServices
             _localesGenerator = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ILocalesGenerator>();
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Locales Hosted Service running.");
+            await DoWorkAsync();
 
             _hub.Subscribe<ShopItem>(async (item) =>
             {
@@ -59,8 +60,6 @@ namespace Albergue.Administrator.HostedServices
             {
                 await DoWorkAsync();
             });
-
-            return Task.CompletedTask;
         }
 
         private async Task DoWorkAsync()

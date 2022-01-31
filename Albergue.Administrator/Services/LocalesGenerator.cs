@@ -38,6 +38,8 @@ namespace Albergue.Administrator.Services
             try
             {
                 var destinationFolder = Configuration.GetValue<string>("LocalesDir");
+                var defaultNS = Configuration.GetValue<string>("LocalesNS");
+
                 var languages = await _languageRepository.GetAllAsync();
                 var categories = await _categoryRepository.GetAllAsync();
                 var items = await _itemRepository.GetAllAsync();
@@ -74,13 +76,26 @@ namespace Albergue.Administrator.Services
                         translations.TryAdd(translation.Key, translation.Value);
                     }
 
-                    await SaveAsync(translations, destinationFolder + "/" + lng.Alpha2Code.ToLowerInvariant() + ".json");
+                    CreateLanguageDirectory(lng, destinationFolder);
+
+                    await SaveAsync(translations, destinationFolder + "/" + lng.Alpha2Code.ToLowerInvariant() + "/" + defaultNS + ".json");
                 });
             }
             catch (System.Exception ex)
             {
                 _logger.LogError(ex.Message);
             }
+        }
+
+        private static void CreateLanguageDirectory(Model.Language lng, string destinationFolder)
+        {
+            var path = destinationFolder + "/" + lng.Alpha2Code.ToLowerInvariant();
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
+
+            Directory.CreateDirectory(path);
         }
 
         private Task SaveAsync(Dictionary<string, object> input, string path)
