@@ -38,3 +38,30 @@ dotnet ef database update
 
 dotnet ef database update --connection "Data Source=My.db"
 ```
+
+# Heroku deployment
+## Prereqs
+```
+choco install heroku-cli
+heroku login
+heroku container:login
+heroku create
+heroku stack:set container
+```
+As a result the app in Heroku is created.
+## Startup
+Each time, you want to deploy the app to Heroku:
+```
+heroku git:remote -a shop-albergue-porto
+heroku stack:set container
+git push heroku main
+```
+or:
+```
+heroku container:push web -a shop-albergue-porto
+heroku container:release web -a shop-albergue-porto
+```
+In case of any error:
+```
+heroku logs --tail
+```
