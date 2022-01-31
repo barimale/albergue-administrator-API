@@ -58,6 +58,8 @@ git push heroku main
 ```
 or:
 ```
+heroku login
+heroku container:login
 heroku container:push web -a shop-albergue-porto
 heroku container:release web -a shop-albergue-porto
 ```
