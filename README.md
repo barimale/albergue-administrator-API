@@ -52,6 +52,8 @@ As a result the app in Heroku is created.
 ## Startup
 Each time, you want to deploy the app to Heroku:
 ```
+heroku login
+heroku container:login
 heroku git:remote -a shop-albergue-porto
 heroku stack:set container
 git push heroku main
