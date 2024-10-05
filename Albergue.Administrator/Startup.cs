@@ -49,16 +49,16 @@ namespace Albergue.Administrator
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
-                                      builder =>
-                                      {
-                                          builder.WithOrigins("*",
-                                                                "https://administrator-albergue-porto.web.app",
-                                                                "https://shop-albergue-porto.web.app",
-                                                              "http://localhost:3006",
-                                                              "http://localhost:3008")
-                                                              .AllowAnyHeader()
-                                                              .AllowAnyMethod();
-                                      });
+                    builder =>
+                    {
+                        builder.WithOrigins("*",
+                                            "https://administrator-albergue-porto.web.app",
+                                            "https://shop-albergue-porto.web.app",
+                                            "http://localhost:3006",
+                                            "http://localhost:3008")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
             });
 
 
